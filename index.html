@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Candy & More</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,700;0,9..40,900;1,9..40,400&display=swap');
+
+    :root{
+      --bg:#F8FAFC;
+      --card:#FFFFFF;
+      --text:#0F172A;
+      --muted:#64748B;
+      --border:#E2E8F0;
+      --shadow: 0 10px 26px rgba(2,6,23,.08);
+      --accent: #60A5FA;
+      --accent-bg: rgba(96,165,250,.16);
+      --accent-border: rgba(96,165,250,.40);
+      --green: #34D399;
+      --green-bg: rgba(52,211,153,.18);
+      --green-border: rgba(52,211,153,.40);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: 'DM Sans', system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      color:var(--text);
+      background:
+        radial-gradient(900px 520px at 12% 0%, rgba(96,165,250,.20), transparent 55%),
+        radial-gradient(900px 520px at 100% 8%, rgba(52,211,153,.16), transparent 55%),
+        var(--bg);
+    }
+    header{
+      position:sticky; top:0; z-index:10;
+      background: rgba(248,250,252,.78);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--border);
+    }
+    .wrap{max-width:1180px; margin:0 auto; padding:16px;}
+    .topbar{display:flex; gap:14px; align-items:center; justify-content:space-between; flex-wrap:wrap;}
+    .brand{font-size:24px; font-weight:900; letter-spacing:-0.5px;}
+    .brand span{color:var(--accent);}
+    .actions{display:flex; gap:10px; align-items:center; flex:1; justify-content:flex-end; min-width:280px;}
+    .search{
+      flex:1;
+      display:flex; align-items:center; gap:10px;
+      background:#FFFFFF;
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:12px 12px;
+      box-shadow: 0 8px 18px rgba(2,6,23,.04);
+      transition: border-color .15s;
+    }
+    .search:focus-within{border-color: var(--accent);}
+    .search input{width:100%; border:none; outline:none; background:transparent; font-size:14px; font-family:inherit;}
+    .pill{
+      border:1px solid var(--border);
+      background:#FFFFFF;
+      border-radius:16px;
+      padding:12px 14px;
+      cursor:pointer;
+      display:flex; align-items:center; gap:10px;
+      box-shadow: 0 8px 18px rgba(2,6,23,.04);
+      font-weight:800;
+      font-family:inherit;
+      transition: border-color .15s, transform .1s;
+    }
+    .pill:hover{border-color: var(--accent); transform:translateY(-1px);}
+    .count{
+      font-size:12px; padding:3px 10px; border-radius:999px;
+      background: var(--accent-bg);
+      border:1px solid var(--accent-border);
+      color:#0B3B66;
+      font-weight:900;
+    }
+    .hero{padding:10px 0 0;}
+    .hero h2{margin:8px 0 6px; font-size:22px; font-weight:900;}
+    .hero p{margin:0; color:var(--muted); line-height:1.45;}
+
+    .cat-bar{
+      display:flex; gap:8px; padding:14px 0 4px;
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
+    }
+    .cat-bar::-webkit-scrollbar{display:none;}
+    .cat-btn{
+      flex-shrink:0;
+      border:1px solid var(--border);
+      background:#FFFFFF;
+      border-radius:12px;
+      padding:8px 14px;
+      cursor:pointer;
+      font-size:13px;
+      font-weight:700;
+      font-family:inherit;
+      color:var(--muted);
+      transition: all .15s;
+      white-space:nowrap;
+      box-shadow: 0 4px 12px rgba(2,6,23,.03);
+    }
+    .cat-btn:hover{border-color: var(--accent); color:var(--text);}
+    .cat-btn.active{
+      background: var(--accent);
+      border-color: var(--accent);
+      color:#fff;
+      box-shadow: 0 4px 16px rgba(96,165,250,.3);
+    }
+    .cat-btn .cat-count{
+      display:inline-block;
+      margin-left:6px;
+      font-size:11px;
+      opacity:0.7;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap:14px;
+      padding: 16px 0 34px;
+    }
+    @media (max-width: 980px){ .grid{grid-template-columns: repeat(3, 1fr);} }
+    @media (max-width: 700px){ .grid{grid-template-columns: repeat(2, 1fr);} .actions{min-width:0;} .cat-bar{gap:6px;} }
+    @media (max-width: 420px){ .grid{grid-template-columns: 1fr;} }
+
+    .card{
+      background: var(--card);
+      border:1px solid var(--border);
+      border-radius:20px;
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      display:flex; flex-direction:column;
+      transition: transform .15s ease, box-shadow .15s ease;
+      animation: fadeUp .4s ease both;
+    }
+    .card:hover{transform: translateY(-3px); box-shadow: 0 16px 40px rgba(2,6,23,.12);}
+
+    @keyframes fadeUp{
+      from{opacity:0; transform:translateY(12px);}
+      to{opacity:1; transform:translateY(0);}
+    }
+
+    .thumb{
+      height:170px;
+      background:#F1F5F9;
+      display:flex; align-items:center; justify-content:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .thumb img{
+      height:100%; width:100%; object-fit:contain;
+      padding:12px;
+      transition: transform .2s ease;
+    }
+    .card:hover .thumb img{transform:scale(1.05);}
+
+    .placeholder-img{
+      width:100%; height:100%;
+      display:flex; align-items:center; justify-content:center;
+      flex-direction:column;
+      gap:8px;
+      background: linear-gradient(135deg, #E0F2FE 0%, #F0FDF4 100%);
+      padding:16px;
+    }
+    .placeholder-img .icon{font-size:36px; opacity:0.5;}
+    .placeholder-img .pname{
+      font-size:11px; font-weight:700; text-align:center;
+      color:var(--muted); line-height:1.3;
+      max-width:90%;
+      overflow:hidden;
+      display:-webkit-box;
+      -webkit-line-clamp:2;
+      -webkit-box-orient:vertical;
+    }
+
+    .img-loading{
+      width:100%; height:100%;
+      display:flex; align-items:center; justify-content:center;
+      background: #F1F5F9;
+    }
+    .spinner{
+      width:28px; height:28px;
+      border:3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius:50%;
+      animation: spin .6s linear infinite;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .content{padding:12px; display:flex; flex-direction:column; gap:8px; flex:1;}
+    .name{font-weight:900; font-size:14px; line-height:1.15;}
+    .desc{color:var(--muted); font-size:12px; min-height:20px;}
+    .cat-label{
+      font-size:10px;
+      padding:2px 8px;
+      background: rgba(96,165,250,.1);
+      border-radius:6px;
+      color: #3B82F6;
+      font-weight:700;
+      align-self:flex-start;
+    }
+    .meta{display:flex; justify-content:space-between; align-items:center; color:var(--muted); font-size:12px;}
+    .price{color:#16A34A; font-weight:900;}
+    .upc-tag{
+      font-size:10px;
+      padding:2px 6px;
+      background:rgba(100,116,139,.08);
+      border-radius:6px;
+      color:var(--muted);
+      font-family:monospace;
+    }
+    .btn{
+      margin-top:auto;
+      width:100%;
+      border:none;
+      border-radius:16px;
+      padding:11px 12px;
+      cursor:pointer;
+      background: var(--green-bg);
+      border:1px solid var(--green-border);
+      color:#065F46;
+      font-weight:900;
+      font-family:inherit;
+      transition: background .15s, transform .1s;
+    }
+    .btn:hover{background: rgba(52,211,153,.28); transform:translateY(-1px);}
+    .btn:active{transform:translateY(0);}
+
+    .empty{
+      padding:22px 0 44px;
+      color:var(--muted);
+      text-align:center;
+      border:1px dashed rgba(100,116,139,.35);
+      border-radius:20px;
+      background: rgba(255,255,255,.75);
+      box-shadow: 0 8px 18px rgba(2,6,23,.04);
+    }
+    footer{border-top:1px solid var(--border); color:var(--muted); padding:16px; text-align:center; font-size:12px;}
+
+    .drawer{position:fixed; inset:0; background: rgba(15,23,42,.35); display:none; align-items:stretch; justify-content:flex-end; z-index:50; backdrop-filter:blur(2px);}
+    .drawer.open{display:flex;}
+    .panel{width:min(460px, 92vw); background: rgba(248,250,252,.98); border-left:1px solid var(--border); padding:14px; display:flex; flex-direction:column; gap:10px; animation: slideIn .2s ease;}
+    @keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+    .panelTop{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+    .panelTop h3{margin:0; font-size:16px; font-weight:900;}
+    .close{border:1px solid var(--border); background:#fff; color:var(--text); border-radius:14px; padding:10px 12px; cursor:pointer; font-family:inherit; transition: border-color .15s;}
+    .close:hover{border-color:var(--accent);}
+    .items{overflow:auto; border:1px solid var(--border); border-radius:18px; background:#fff; padding:10px; min-height: 180px; max-height: 48vh; box-shadow: 0 8px 18px rgba(2,6,23,.04);}
+    .row{display:grid; grid-template-columns: 1fr auto; gap:10px; padding:10px; border-radius:14px;}
+    .row + .row{border-top:1px solid rgba(226,232,240,.9)}
+    .row strong{font-size:13px}
+    .row small{display:block; color:var(--muted); margin-top:2px}
+    .qtyControls{display:flex; align-items:center; gap:6px;}
+    .mini{width:34px; height:34px; border-radius:12px; border:1px solid var(--border); background:#F8FAFC; color:var(--text); cursor:pointer; font-weight:900; font-family:inherit; transition: border-color .15s;}
+    .mini:hover{border-color: var(--accent);}
+    .totals{border:1px solid var(--border); border-radius:18px; padding:12px; background:#fff; box-shadow: 0 8px 18px rgba(2,6,23,.04); display:flex; flex-direction:column; gap:8px;}
+    .line{display:flex; justify-content:space-between; align-items:center; color:var(--muted); font-size:13px;}
+    .line b{color:var(--text)}
+    .checkout{display:flex; gap:10px; align-items:center;}
+    .primary{flex:1; border:none; border-radius:16px; padding:12px; cursor:pointer; background: var(--accent-bg); border:1px solid var(--accent-border); color:#0B3B66; font-weight:900; font-family:inherit; transition: background .15s;}
+    .primary:hover{background: rgba(96,165,250,.28)}
+    .danger{border:none; border-radius:16px; padding:12px; cursor:pointer; background: rgba(239,68,68,.12); border:1px solid rgba(239,68,68,.30); color:#7F1D1D; font-weight:900; min-width:120px; font-family:inherit; transition: background .15s;}
+    .danger:hover{background: rgba(239,68,68,.20)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="topbar">
+        <div class="brand">Candy <span>&</span> More</div>
+        <div class="actions">
+          <div class="search">&#x1F50E; <input id="searchInput" type="text" placeholder="Search by name, description, or UPC..." /></div>
+          <button class="pill" id="openCartBtn" type="button">&#x1F6D2; Cart <span class="count" id="cartCount">0</span></button>
+        </div>
+      </div>
+      <div class="hero">
+        <h2>Wholesale Catalog</h2>
+        <p>Browse our full selection by category. Search by name, description, or UPC.</p>
+      </div>
+      <div class="cat-bar" id="catBar"></div>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <div style="margin: 14px 0 10px;">
+      <div style="background: rgba(255,255,255,.85); border:1px solid var(--border); border-radius:20px; box-shadow: 0 8px 18px rgba(2,6,23,.04); padding:14px;">
+        <div style="display:flex; gap:14px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap;">
+          <div style="min-width:240px; flex:1;">
+            <div style="font-weight:950; font-size:14px;">Can’t find a product?</div>
+            <div style="color:var(--muted); font-size:12px; line-height:1.35; margin-top:4px;">
+              Send us a quick inquiry and we’ll tell you if we have it in stock or can get it for you.
+            </div>
+          </div>
+          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end;">
+            <input id="inqName" placeholder="Your name" style="border:1px solid var(--border); border-radius:14px; padding:10px 12px; background:#fff; font-size:13px; min-width:170px;"/>
+            <input id="inqEmail" placeholder="Email or phone" style="border:1px solid var(--border); border-radius:14px; padding:10px 12px; background:#fff; font-size:13px; min-width:190px;"/>
+          </div>
+        </div>
+        <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+          <input id="inqText" placeholder="What product are you looking for? (name, brand, size, flavor, UPC, etc.)" style="flex:1; border:1px solid var(--border); border-radius:14px; padding:10px 12px; background:#fff; font-size:13px; min-width:260px;"/>
+          <button id="sendInquiryBtn" class="pill" type="button" style="font-weight:950;">Send inquiry ✉️</button>
+        </div>
+        <div style="color:var(--muted); font-size:11px; margin-top:8px;">
+          This opens your email app with the inquiry pre‑filled.
+        </div>
+      </div>
+    </div>
+
+    <div id="productGrid" class="grid"></div>
+    <div id="emptyState" class="empty" style="display:none;">No products match your search.</div>
+  </main>
+
+  <footer>Candy &amp; More &bull; Email checkout &bull; Placeholder prices ($1) until you upload pricing</footer>
+
+  <div class="drawer" id="drawer">
+    <div class="panel" role="dialog" aria-modal="true" aria-label="Shopping cart">
+      <div class="panelTop">
+        <h3>Your Cart <span class="site-version" style="font-size:12px;color:#667; margin-left:8px;">(FIX3-20260407-054130Z)</span></h3>
+        <button class="close" id="closeCartBtn" type="button">&#x2715;</button>
+      </div>
+      <div class="items" id="cartItems"></div>
+      <div class="totals">
+        <div class="line"><span>Items</span><b id="itemsTotal">0</b></div>
+        <div class="line"><span>Price per item</span><b id="priceEach">Varies</b></div>
+        <div class="line"><span>Estimated total</span><b id="priceTotal">$0.00</b></div>
+        
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
+          <input id="custName" placeholder="Your name" style="flex:1; min-width:160px; border:1px solid var(--border); border-radius:14px; padding:10px 12px; background:#fff; font-size:13px;" />
+          <input id="custPhone" placeholder="Your number" style="flex:1; min-width:160px; border:1px solid var(--border); border-radius:14px; padding:10px 12px; background:#fff; font-size:13px;" />
+          <input id="custLocation" placeholder="Your location (City/State)" style="flex:1; min-width:200px; border:1px solid var(--border); border-radius:14px; padding:10px 12px; background:#fff; font-size:13px;" />
+        </div>
+        <div id="checkoutStatus" style="display:none; margin-top:8px; font-size:12px; color:var(--muted);"></div>
+
+        <div class="checkout">
+          <button class="danger" id="clearCartBtn" type="button">Clear</button>
+          <button class="primary" id="checkoutBtn" type="button">Submit Checkout</button>
+        </div>
+        <div style="color:var(--muted); font-size:12px; line-height:1.35;">
+          Edit the email address in the code where it says <b>CHECKOUT_EMAIL</b>.
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+const CHECKOUT_EMAIL = "candiesandmoredistrocorp@gmail.com";
+
+
+const SITE_VERSION = "FIX3-20260407-054130Z";
+const MAKE_WEBHOOK_URL = "/.netlify/functions/send-order";
+const PRICE = 1.00;
+
+
+// --- Home tabs: Featured / Hot Sellers / Why Not (built from lowest-priced items in each category) ---
+function getPrice(p){
+  const v = (p && typeof p.price === "number") ? p.price : PRICE;
+  return Number.isFinite(v) ? v : PRICE;
+}
+function buildHomeSets(){
+  const byCat = {};
+  products.forEach(p => {
+    const cat = p.category || "Other";
+    byCat[cat] = byCat[cat] || [];
+    byCat[cat].push(p);
+  });
+
+  const featured = new Set();
+  const hot = new Set();
+  const why = new Set();
+
+  Object.keys(byCat).forEach(cat => {
+    const arr = byCat[cat].slice().sort((a,b) => getPrice(a) - getPrice(b));
+
+    // pick 3-5 per category: we use 3 for Featured, next 3 for Hot, next 3 for Why Not
+    const feat = arr.slice(0, 3);
+    const hotP = arr.slice(3, 6);
+    const whyP = arr.slice(6, 9);
+
+    feat.forEach(p => featured.add(p.id));
+    hotP.forEach(p => hot.add(p.id));
+    whyP.forEach(p => why.add(p.id));
+  });
+
+  // If a category has fewer items and sets are small, backfill from overall cheapest (still unique)
+  const allSorted = products.slice().sort((a,b) => getPrice(a) - getPrice(b));
+  function backfill(target, minSize){
+    for(const p of allSorted){
+      if(target.size >= minSize) break;
+      if(!featured.has(p.id) && !hot.has(p.id) && !why.has(p.id)){
+        target.add(p.id);
+      }
+    }
+  }
+
+  // Ensure each set has something meaningful
+  backfill(featured, Math.min(24, products.length));
+  backfill(hot, Math.min(24, products.length));
+  backfill(why, Math.min(24, products.length));
+
+  return { featured, hot, why };
+}
+const HOME_SETS = buildHomeSets();
+// ---------------------------------------------------------
+
+// Send order to Make.com webhook (reliable email delivery)
+async function sendOrderToMake(payload){
+  if(!MAKE_WEBHOOK_URL) return {ok:false, skipped:true};
+  try{
+    const res = await fetch(MAKE_WEBHOOK_URL, {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify(payload)
+    });
+    let data = null;
+    try { data = await res.json(); } catch(e) {}
+    return {ok: res.ok && (data ? data.ok !== false : true), status: res.status, data};
+  }catch(e){
+    return {ok:false, error:String(e)};
+  }
+}
+
+const cart = new Map();
+const imageCache = {};
+let activeCategory = "Featured";
+
+const grid = document.getElementById("productGrid");
+const emptyState = document.getElementById("emptyState");
+const searchInput = document.getElementById("searchInput");
+const catBar = document.getElementById("catBar");
+const drawer = document.getElementById("drawer");
+const openCartBtn = document.getElementById("openCartBtn");
+const closeCartBtn = document.getElementById("closeCartBtn");
+const cartItemsEl = document.getElementById("cartItems");
+const cartCountEl = document.getElementById("cartCount");
+const itemsTotalEl = document.getElementById("itemsTotal");
+const priceTotalEl = document.getElementById("priceTotal");
+const priceEachEl = document.getElementById("priceEach");
+const clearCartBtn = document.getElementById("clearCartBtn");
+const checkoutBtn = document.getElementById("checkoutBtn");
+
+const catIcons = {
+    "Featured": "\u2B50",
+  "Hot Sellers": "\u{1F525}",
+  "Why Not": "\u{1F3B2}",
+"Gummies & Chewy Candy": "\u{1F36C}",
+  "Cookies & Wafers": "\u{1F36A}",
+  "Chips & Snacks": "\u{1F35F}",
+  "Chocolate Bars": "\u{1F36B}",
+  "Gum & Mints": "\u{1F343}",
+  "Protein & Energy Bars": "\u{1F4AA}",
+  "Noodles & Soups": "\u{1F35C}"
+};
+
+function buildCatBar(){
+  const cats = {};
+  products.forEach(p => { cats[p.category] = (cats[p.category]||0)+1; });
+  const sorted = Object.entries(cats).sort((a,b) => b[1]-a[1]);
+
+  // Home tabs first
+  const homeTabs = [
+    {name:"Featured", count: HOME_SETS.featured.size},
+    {name:"Hot Sellers", count: HOME_SETS.hot.size},
+    {name:"Why Not", count: HOME_SETS.why.size}
+  ];
+
+  homeTabs.forEach((t) => {
+    const btn = document.createElement("button");
+    btn.className = "cat-btn" + (t.name === "Featured" ? " active" : "");
+    btn.dataset.cat = t.name;
+    const icon = catIcons[t.name] || "\u2B50";
+    btn.innerHTML = icon + " " + t.name + " <span class=\"cat-count\">" + t.count + "</span>";
+    btn.addEventListener("click", () => selectCategory(t.name));
+    catBar.appendChild(btn);
+  });
+
+  // Keep All in bar, but not the opening page
+  const allBtn = document.createElement("button");
+  allBtn.className = "cat-btn";
+  allBtn.dataset.cat = "All";
+  allBtn.innerHTML = "\u{1F4E6} All <span class=\"cat-count\">" + products.length + "</span>";
+  allBtn.addEventListener("click", () => selectCategory("All"));
+  catBar.appendChild(allBtn);
+
+  // Then the real categories
+  sorted.forEach(([cat, count]) => {
+    const btn = document.createElement("button");
+    btn.className = "cat-btn";
+    btn.dataset.cat = cat;
+    const icon = catIcons[cat] || "\u{1F4E6}";
+    btn.innerHTML = icon + " " + cat + " <span class=\"cat-count\">" + count + "</span>";
+    btn.addEventListener("click", () => selectCategory(cat));
+    catBar.appendChild(btn);
+  });
+}
+
+function selectCategory(cat){
+  activeCategory = cat;
+  document.querySelectorAll(".cat-btn").forEach(b => {
+    b.classList.toggle("active", (b.dataset.cat || "All") === cat);
+  });
+  applyFilters();
+}
+
+function escapeHtml(str){
+  return String(str)
+    .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+}
+
+function createPlaceholder(name, category){
+  const icon = catIcons[category] || "\u{1F4E6}";
+  const div = document.createElement('div');
+  div.className = 'placeholder-img';
+  div.innerHTML = '<div class="icon">'+icon+'</div><div class="pname">'+escapeHtml(name)+'</div>';
+  return div;
+}
+
+function createLoader(){
+  const div = document.createElement('div');
+  div.className = 'img-loading';
+  div.innerHTML = '<div class="spinner"></div>';
+  return div;
+}
+
+function padUPC(upc){ return upc.padStart(13, '0'); }
+
+async function tryLoadImage(url){
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(url);
+    img.onerror = () => resolve(null);
+    img.src = url;
+  });
+}
+
+async function loadProductImage(upc, thumbEl, name, category){
+  let imgUrl = null;
+
+  // Step 0: Prefer packshot URL from spreadsheet if provided
+  const product = products.find(p => p.upc === upc);
+  if(product && product.photoUrl && product.photoUrl !== 'MISSING'){
+    imgUrl = product.photoUrl;
+  }
+
+// Step 1: Check local images (your uploads always win)
+  const exts = ["png","jpg","jpeg","webp","avif"];
+  const localUrls = [];
+  for(const ext of exts){
+    localUrls.push("images/" + upc + "." + ext);
+    localUrls.push("images/upc_" + upc + "." + ext);
+  }
+  const localResults = await Promise.all(localUrls.map(tryLoadImage));
+  imgUrl = localResults.find(r => r !== null) || null;
+
+  // Step 2: If no local image, try Open Food Facts API
+  if(!imgUrl){
+    try{
+      const padded = padUPC(upc);
+      const resp = await fetch("https://world.openfoodfacts.org/api/v0/product/" + padded + ".json", {signal: AbortSignal.timeout(6000)});
+      if(resp.ok){
+        const data = await resp.json();
+        if(data.status === 1 && data.product){
+          imgUrl = data.product.image_front_url || data.product.image_url || data.product.image_front_small_url || null;
+        }
+      }
+    } catch(e){}
+  }
+
+  // Step 3: Try unpadded UPC if different length
+  if(!imgUrl && upc.length >= 12){
+    try{
+      const resp = await fetch("https://world.openfoodfacts.org/api/v0/product/" + upc + ".json", {signal: AbortSignal.timeout(6000)});
+      if(resp.ok){
+        const data = await resp.json();
+        if(data.status === 1 && data.product){
+          imgUrl = data.product.image_front_url || data.product.image_url || data.product.image_front_small_url || null;
+        }
+      }
+    } catch(e){}
+  }
+
+  // Step 4: Display result
+  thumbEl.innerHTML = '';
+  if(imgUrl){
+    imageCache[upc] = imgUrl;
+    const img = document.createElement('img');
+    img.alt = name;
+    img.src = imgUrl;
+    img.loading = 'lazy';
+    img.onerror = () => {
+      thumbEl.innerHTML = '';
+      thumbEl.appendChild(createPlaceholder(name, category));
+    };
+    thumbEl.appendChild(img);
+  } else {
+    thumbEl.appendChild(createPlaceholder(name, category));
+  }
+}
+
+const imageQueue = [];
+let activeLoads = 0;
+const MAX_CONCURRENT = 6;
+
+function enqueueImageLoad(upc, thumbEl, name, category){
+  if(imageCache[upc]){
+    thumbEl.innerHTML = '';
+    const img = document.createElement('img');
+    img.alt = name;
+    img.src = imageCache[upc];
+    img.loading = 'lazy';
+    thumbEl.appendChild(img);
+    return;
+  }
+  imageQueue.push({upc, thumbEl, name, category});
+  processQueue();
+}
+
+async function processQueue(){
+  while(activeLoads < MAX_CONCURRENT && imageQueue.length > 0){
+    const {upc, thumbEl, name, category} = imageQueue.shift();
+    activeLoads++;
+    loadProductImage(upc, thumbEl, name, category).finally(() => {
+      activeLoads--;
+      processQueue();
+    });
+  }
+}
+
+function renderProducts(list){
+  grid.innerHTML = "";
+  if(!list.length){
+    emptyState.style.display = "block";
+    return;
+  }
+  emptyState.style.display = "none";
+
+  for(let i = 0; i < list.length; i++){
+    const p = list[i];
+    const card = document.createElement("div");
+    card.className = "card";
+    card.style.animationDelay = Math.min(i * 15, 400) + "ms";
+
+    card.innerHTML = `
+      <div class="thumb" data-upc="${escapeHtml(p.upc)}" data-name="${escapeHtml(p.name)}" data-cat="${escapeHtml(p.category)}"></div>
+      <div class="content">
+        <span class="cat-label">${escapeHtml(p.category)}</span>
+        <div class="name">${escapeHtml(p.name)}</div>
+        <div class="desc">${escapeHtml(p.description || "")}</div>
+        <div class="meta">
+          <span class="upc-tag">${escapeHtml(p.upc)}</span>
+          <span class="price">$${Number(p.price||PRICE).toFixed(2)}</span>
+        </div>
+        <button class="btn" type="button">Add to cart</button>
+      </div>
+    `;
+
+    const thumbEl = card.querySelector('.thumb');
+    thumbEl.appendChild(createLoader());
+    card.querySelector(".btn").addEventListener("click", () => addToCart(p.id));
+    grid.appendChild(card);
+    observer.observe(thumbEl);
+  }
+}
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const thumbEl = entry.target;
+      const upc = thumbEl.dataset.upc;
+      const name = thumbEl.dataset.name;
+      const category = thumbEl.dataset.cat;
+      if(upc){
+        enqueueImageLoad(upc, thumbEl, name, category);
+        observer.unobserve(thumbEl);
+      }
+    }
+  });
+}, {rootMargin: '200px'});
+
+function applyFilters(){
+  const q = (searchInput.value || "").trim().toLowerCase();
+  let filtered = products;
+
+  if(activeCategory === "Featured"){
+    filtered = filtered.filter(p => HOME_SETS.featured.has(p.id));
+  } else if(activeCategory === "Hot Sellers"){
+    filtered = filtered.filter(p => HOME_SETS.hot.has(p.id));
+  } else if(activeCategory === "Why Not"){
+    filtered = filtered.filter(p => HOME_SETS.why.has(p.id));
+  } else if(activeCategory !== "All"){
+    filtered = filtered.filter(p => p.category === activeCategory);
+  }
+
+  if(q){
+    filtered = filtered.filter(p =>
+      (p.name||"").toLowerCase().includes(q) ||
+      (p.description||"").toLowerCase().includes(q) ||
+      (p.upc||"").toLowerCase().includes(q)
+    );
+  }
+
+  // Keep it clean: sort by price ascending within the selected view
+  filtered = filtered.slice().sort((a,b) => getPrice(a) - getPrice(b));
+
+  renderProducts(filtered);
+}
+searchInput.addEventListener("input", applyFilters);
+
+function addToCart(productId){
+  cart.set(productId, (cart.get(productId) || 0) + 1);
+  updateCartUI();
+  openDrawer();
+}
+function removeOne(productId){
+  const qty = cart.get(productId) || 0;
+  if(qty <= 1) cart.delete(productId);
+  else cart.set(productId, qty - 1);
+  updateCartUI();
+}
+function addOne(productId){
+  cart.set(productId, (cart.get(productId) || 0) + 1);
+  updateCartUI();
+}
+function clearCart(){ cart.clear(); updateCartUI(); }
+
+function cartTotals(){
+  let items = 0;
+  let total = 0;
+  for(const [id, qty] of cart.entries()){
+    items += qty;
+    const p = products.find(x => x.id === id);
+    const price = p && typeof p.price === "number" ? p.price : PRICE;
+    total += qty * price;
+  }
+  return {items, total};
+}
+
+function updateCartUI(){
+  const {items, total} = cartTotals();
+  cartCountEl.textContent = String(items);
+  itemsTotalEl.textContent = String(items);
+  priceTotalEl.textContent = "$" + total.toFixed(2);
+
+  // Price per item display
+  if(priceEachEl){
+    const prices = [];
+    for(const [id, qty] of cart.entries()){
+      const p = products.find(x => x.id === id);
+      if(!p) continue;
+      const pr = (typeof p.price === "number" ? p.price : PRICE);
+      prices.push(pr);
+    }
+    const unique = Array.from(new Set(prices.map(x => x.toFixed(2))));
+    if(unique.length === 1 && unique[0]){
+      priceEachEl.textContent = "$" + unique[0];
+    } else if(unique.length === 0){
+      priceEachEl.textContent = "—";
+    } else {
+      priceEachEl.textContent = "Varies";
+    }
+  }
+
+  if(items === 0){
+    cartItemsEl.innerHTML = '<div style="color: var(--muted); padding: 16px; text-align:center;">Your cart is empty.</div>';
+    return;
+  }
+  const rows = [];
+  for(const [id, qty] of cart.entries()){
+    const p = products.find(x => x.id === id);
+    if(!p) continue;
+    rows.push(`
+      <div class="row">
+        <div>
+          <strong>${escapeHtml(p.name)}</strong>
+          <small>UPC: ${escapeHtml(p.upc)} &bull; $${(typeof p.price === "number" ? p.price : PRICE).toFixed(2)} each</small>
+        </div>
+        <div class="qtyControls">
+          <button class="mini" data-action="minus" data-id="${id}">&minus;</button>
+          <div style="min-width:26px; text-align:center; font-weight:900;">${qty}</div>
+          <button class="mini" data-action="plus" data-id="${id}">+</button>
+        </div>
+      </div>
+    `);
+  }
+  cartItemsEl.innerHTML = rows.join("");
+  cartItemsEl.querySelectorAll("button[data-action]").forEach(btn => {
+    const id = btn.getAttribute("data-id");
+    const action = btn.getAttribute("data-action");
+    btn.addEventListener("click", () => {
+      if(action === "minus") removeOne(id);
+      if(action === "plus") addOne(id);
+    });
+  });
+}
+
+function openDrawer(){ drawer.classList.add("open"); }
+function closeDrawer(){ drawer.classList.remove("open"); }
+openCartBtn.addEventListener("click", openDrawer);
+closeCartBtn.addEventListener("click", closeDrawer);
+drawer.addEventListener("click", (e) => { if(e.target === drawer) closeDrawer(); });
+clearCartBtn.addEventListener("click", clearCart);
+
+checkoutBtn.addEventListener("click", async () => {
+      const statusEl = document.getElementById("checkoutStatus");
+      const name = (document.getElementById("custName")?.value || "").trim();
+      const phone = (document.getElementById("custPhone")?.value || "").trim();
+      const location = (document.getElementById("custLocation")?.value || "").trim();
+      const notes = location;
+
+      if(!name || !phone){
+        if(statusEl){
+          statusEl.textContent = "Please enter name and phone.";
+          statusEl.style.color = "#b00020";
+        } else {
+          alert("Please enter name and phone.");
+        }
+        return;
+      }
+
+      if(cart.size === 0){
+        if(statusEl){
+          statusEl.textContent = "Cart is empty.";
+          statusEl.style.color = "#b00020";
+        }
+        return;
+      }
+
+      // Build compact order summary
+      const summaryLines = [];
+      for (const [id, qty] of cart.entries()) {
+        const p = products.find(x => x.id === id);
+        if (!p) continue;
+        summaryLines.push(`${p.name} | UPC: ${p.upc} | Qty: ${qty}`);
+      }
+      const MAX_LINES = 60;
+      let orderSummary = summaryLines.slice(0, MAX_LINES).join("\n");
+      if (summaryLines.length > MAX_LINES) {
+        orderSummary += `\n... +${summaryLines.length - MAX_LINES} more items`;
+      }
+
+      if(statusEl){
+        statusEl.textContent = "Sending...";
+        statusEl.style.color = "#333";
+      }
+
+      const makePayload = {
+        form: "checkout",
+        name,
+        phone,
+        notes,
+        order_summary: orderSummary,
+        item_count: Array.from(cart.values()).reduce((a,b)=>a+b,0),
+        total: calculateTotal(),
+        submitted_at: new Date().toISOString()
+      };
+
+      const makeResult = await sendOrderToMake(makePayload);
+
+      if(!makeResult || !makeResult.ok){
+        if(statusEl){
+          statusEl.textContent = "Checkout failed to send. Please try again.";
+          statusEl.style.color = "#b00020";
+        } else {
+          alert("Checkout failed to send. Please try again.");
+        }
+        return;
+      }
+
+      // Netlify Forms backup (optional; doesn't block)
+      try {
+        const formData = new URLSearchParams();
+        formData.append("form-name", "checkout");
+        formData.append("name", name);
+        formData.append("phone", phone);
+        formData.append("notes", notes);
+        formData.append("order_summary", orderSummary);
+        formData.append("cart_items", orderSummary);
+        await fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: formData.toString()
+        });
+      } catch(e) {}
+
+      if(statusEl){
+        statusEl.textContent = "Submitted! We'll contact you soon.";
+        statusEl.style.color = "#1b5e20";
+      } else {
+        alert("Submitted! We'll contact you soon.");
+      }
+
+      cart.clear();
+      updateCartUI();
+      renderProducts(currentProducts || products);
+});
+buildCatBar();
+selectCategory("Featured");
+updateCartUI();
+
+});
+
+const testPipelineBtn = document.getElementById("testPipelineBtn");
+if (testPipelineBtn) {
+  testPipelineBtn.addEventListener("click", async () => {
+    statusEl.textContent = "Testing email pipeline...";
+    statusEl.style.color = "#333";
+    const payload = {
+      form: "checkout_test",
+      name: "TEST",
+      phone: "TEST",
+      notes: "TEST",
+      order_summary: "Test item | UPC: TEST | Qty: 1",
+      item_count: 1,
+      total: 0,
+      submitted_at: new Date().toISOString()
+    };
+    const r = await sendOrderToMake(payload);
+    if (r && r.ok) {
+      statusEl.textContent = "Pipeline OK ✅ Check your email in ~10 seconds.";
+      statusEl.style.color = "#1b5e20";
+    } else {
+      statusEl.textContent = "Pipeline FAILED ❌ " + (r && r.data ? JSON.stringify(r.data) : (r && r.error ? r.error : ""));
+      statusEl.style.color = "#b00020";
+    }
+  });
+}
+
+</script>
+
+  <!-- Netlify Forms: hidden form for detection -->
+  <form name="checkout" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="checkout" />
+    <p style="display:none;">
+      <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
+    </p>
+    <input name="customer_name" />
+    <input name="customer_phone" />
+    <input name="customer_location" />
+    <textarea name="cart_items"></textarea>
+    <textarea name="order_summary"></textarea>
+    <input name="items_count" />
+    <input name="estimated_total" />
+  </form>
+
+</body>
+</html>
