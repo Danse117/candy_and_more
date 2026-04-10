@@ -29,7 +29,7 @@ export default function AdminProductsPage() {
   }
 
   useEffect(() => {
-    loadProducts();
+    loadProducts(); // eslint-disable-line react-hooks/set-state-in-effect
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function handleCreate(data: { upc: string; name: string; description: string; price: string; category: string; photoUrl: string }) {
