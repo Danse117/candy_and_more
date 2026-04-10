@@ -7,7 +7,6 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
-import type { CartItem } from "./types";
 
 interface CartContextValue {
   items: Map<string, number>;
