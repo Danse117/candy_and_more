@@ -1,21 +1,25 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import AdminSidebar from "@/components/custom/admin-sidebar";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [authenticated, setAuthenticated] = useState(false);
 
+  const isLoginPage = pathname === "/admin/login";
+
   useEffect(() => {
+    if (isLoginPage) return;
     const token = sessionStorage.getItem("nf_token");
     if (!token) {
       router.replace("/admin/login");
       return;
     }
     setAuthenticated(true);
-  }, [router]);
+  }, [router, isLoginPage]);
 
   function handleLogout() {
     sessionStorage.removeItem("nf_token");
@@ -25,6 +29,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     router.replace("/admin/login");
   }
 
+  if (isLoginPage) return <>{children}</>;
   if (!authenticated) return null;
 
   return (
