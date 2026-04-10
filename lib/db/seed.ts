@@ -42,6 +42,7 @@ async function seed() {
 
   // Import products — CJS module at project root
   const projectRoot = path.resolve(__dirname, "../..");
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const rawProducts: RawProduct[] = require(path.join(projectRoot, "products"));
   const imagesDir = path.join(projectRoot, "public", "product-images");
 
