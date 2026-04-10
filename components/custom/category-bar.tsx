@@ -15,7 +15,7 @@ const CATEGORY_ICONS: Record<string, string> = {
 
 interface CategoryBarProps {
   categories: string[];
-  categoryCounts: Map<string, number>;
+  categoryCounts: Record<string, number>;
   activeCategory: string;
   onCategoryChange: (category: string) => void;
   totalProducts: number;
@@ -53,7 +53,7 @@ export default function CategoryBar({
           }`}
         >
           {CATEGORY_ICONS[cat] || "📦"} {cat}{" "}
-          <span className="ml-1.5 text-[11px] opacity-70">{categoryCounts.get(cat) || 0}</span>
+          <span className="ml-1.5 text-[11px] opacity-70">{categoryCounts[cat] || 0}</span>
         </button>
       ))}
     </div>

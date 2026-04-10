@@ -3,7 +3,6 @@
 
 import { X } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
-import { getProductById } from "@/lib/products";
 import { Button } from "@/components/ui/button";
 import CartItemRow from "./cart-item-row";
 import Link from "next/link";
@@ -14,7 +13,7 @@ interface CartDrawerProps {
 }
 
 export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
-  const { items, clearCart, totalItems } = useCart();
+  const { items, clearCart, totalItems, getProductById } = useCart();
 
   const cartProducts = Array.from(items.entries())
     .map(([id, qty]) => ({ product: getProductById(id), quantity: qty }))

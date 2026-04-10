@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
+import { connection } from "next/server";
 import { CartProvider } from "@/lib/cart-context";
+import { getProducts } from "@/lib/products";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -15,15 +17,18 @@ export const metadata: Metadata = {
     "Browse our full wholesale snack and candy catalog. Search by name, description, or UPC.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  await connection();
+  const products = await getProducts();
+
   return (
     <html lang="en" className={`${dmSans.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans overflow-x-hidden">
-        <CartProvider>{children}</CartProvider>
+        <CartProvider products={products}>{children}</CartProvider>
       </body>
     </html>
   );

@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import type { OrderPayload } from "@/lib/types";
 import { buildOrderConfirmationHtml } from "@/lib/email-template";
+import { getDb } from "@/lib/db";
+import { ordersTable } from "@/lib/db/schema";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -37,6 +39,18 @@ export async function POST(request: NextRequest) {
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
+
+    // Persist order to DB
+    const db = getDb();
+    await db.insert(ordersTable).values({
+      customerFirstName: body.customerFirstName,
+      customerLastName: body.customerLastName,
+      customerEmail: body.customerEmail,
+      note: body.note || null,
+      items: JSON.stringify(body.items),
+      totalPrice: body.totalPrice.toFixed(2),
+      submittedAt: new Date(body.submittedAt),
+    });
 
     return NextResponse.json({ ok: true });
   } catch {
