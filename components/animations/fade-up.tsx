@@ -15,6 +15,7 @@ export default function FadeUp({ children, delay = 0 }: FadeUpProps) {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay, ease: "easeOut" }}
+      className="min-w-0"
     >
       {children}
     </motion.div>

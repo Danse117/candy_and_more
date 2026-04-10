@@ -43,3 +43,7 @@ next-env.d.ts
 
 index.html
 products.js
+CLAUDE.md
+
+# Local Netlify folder
+.netlify

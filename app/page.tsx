@@ -14,20 +14,31 @@ export default function CatalogPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [cartOpen, setCartOpen] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(20);
 
   const categories = getCategories();
   const categoryCounts = getCategoryCounts();
   const filteredProducts = searchProducts(searchQuery, activeCategory);
 
+  function handleSearchChange(query: string) {
+    setSearchQuery(query);
+    setVisibleCount(20);
+  }
+
+  function handleCategoryChange(category: string) {
+    setActiveCategory(category);
+    setVisibleCount(20);
+  }
+
   return (
     <>
       <Navbar
         searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
+        onSearchChange={handleSearchChange}
         onCartClick={() => setCartOpen(true)}
       />
 
-      <main className="mx-auto max-w-[1180px] px-4">
+      <main className="mx-auto max-w-[1180px] px-4 min-w-0 w-full">
         {/* Hero */}
         <div className="pt-2.5">
           <h2 className="my-2 text-[22px] font-black">Wholesale Catalog</h2>
@@ -41,7 +52,7 @@ export default function CatalogPage() {
           categories={categories}
           categoryCounts={categoryCounts}
           activeCategory={activeCategory}
-          onCategoryChange={setActiveCategory}
+          onCategoryChange={handleCategoryChange}
           totalProducts={products.length}
         />
 
@@ -49,7 +60,11 @@ export default function CatalogPage() {
         <InquiryBanner />
 
         {/* Product grid */}
-        <ProductGrid products={filteredProducts} />
+        <ProductGrid
+          products={filteredProducts}
+          visibleCount={visibleCount}
+          onLoadMore={() => setVisibleCount((c) => c + 20)}
+        />
       </main>
 
       <Footer />
