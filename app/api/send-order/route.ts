@@ -6,8 +6,6 @@ import { buildOrderConfirmationHtml } from "@/lib/email-template";
 import { getDb } from "@/lib/db";
 import { ordersTable } from "@/lib/db/schema";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(request: NextRequest) {
   try {
     const body: OrderPayload = await request.json();
@@ -27,6 +25,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const resend = new Resend(process.env.RESEND_API_KEY);
     const html = buildOrderConfirmationHtml(body);
 
     const { error } = await resend.emails.send({
