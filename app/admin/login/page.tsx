@@ -11,25 +11,27 @@ export default function AdminLoginPage() {
     if (initRef.current) return;
     initRef.current = true;
 
-    import("netlify-identity-widget").then((netlifyIdentity) => {
-      netlifyIdentity.default.init();
-      setReady(true);
-
-      netlifyIdentity.default.on("login", (user) => {
-        // Store token and redirect
-        const token = user?.token?.access_token;
-        if (token) {
-          sessionStorage.setItem("nf_token", token);
-          window.location.href = "/admin";
-        }
-      });
-    });
+    // Wait for the global netlify identity widget (loaded via script tag in root layout)
+    function waitForWidget() {
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("login", (user: unknown) => {
+          const u = user as { token?: { access_token?: string } } | undefined;
+          const token = u?.token?.access_token;
+          if (token) {
+            sessionStorage.setItem("nf_token", token);
+            window.location.href = "/admin";
+          }
+        });
+        setReady(true);
+      } else {
+        setTimeout(waitForWidget, 50);
+      }
+    }
+    waitForWidget();
   }, []);
 
   function handleLogin() {
-    import("netlify-identity-widget").then((netlifyIdentity) => {
-      netlifyIdentity.default.open("login");
-    });
+    window.netlifyIdentity?.open("login");
   }
 
   return (

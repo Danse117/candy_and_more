@@ -3,6 +3,7 @@ import { DM_Sans } from "next/font/google";
 import { connection } from "next/server";
 import { CartProvider } from "@/lib/cart-context";
 import { getProducts } from "@/lib/products";
+import NetlifyIdentityInit from "@/components/custom/netlify-identity-init";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -28,6 +29,7 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`${dmSans.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans overflow-x-hidden">
+        <NetlifyIdentityInit />
         <CartProvider products={products}>{children}</CartProvider>
       </body>
     </html>

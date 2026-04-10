@@ -3,8 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import type { OrderPayload } from "@/lib/types";
 import { buildOrderConfirmationHtml } from "@/lib/email-template";
-import { getDb } from "@/lib/db";
-import { ordersTable } from "@/lib/db/schema";
 
 export async function POST(request: NextRequest) {
   try {
@@ -29,7 +27,7 @@ export async function POST(request: NextRequest) {
     const html = buildOrderConfirmationHtml(body);
 
     const { error } = await resend.emails.send({
-      from: "Candy & More <orders@yourdomain.com>",
+      from: "Candy & More <orders@candyandmoredistrocorp.com>",
       to: body.customerEmail,
       subject: `Order Confirmation — Candy & More`,
       html,
@@ -38,18 +36,6 @@ export async function POST(request: NextRequest) {
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
-
-    // Persist order to DB
-    const db = getDb();
-    await db.insert(ordersTable).values({
-      customerFirstName: body.customerFirstName,
-      customerLastName: body.customerLastName,
-      customerEmail: body.customerEmail,
-      note: body.note || null,
-      items: JSON.stringify(body.items),
-      totalPrice: body.totalPrice.toFixed(2),
-      submittedAt: new Date(body.submittedAt),
-    });
 
     return NextResponse.json({ ok: true });
   } catch {

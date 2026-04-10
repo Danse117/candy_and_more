@@ -20,7 +20,7 @@ function rowToProduct(row: typeof productsTable.$inferSelect): Product {
 
 export async function getProducts(): Promise<Product[]> {
   const db = getDb();
-  const rows = await db.select().from(productsTable).orderBy(asc(productsTable.price));
+  const rows = await db.select().from(productsTable).orderBy(asc(productsTable.upc));
   return rows.map(rowToProduct);
 }
 

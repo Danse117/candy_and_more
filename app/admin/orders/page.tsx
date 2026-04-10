@@ -59,16 +59,16 @@ export default function AdminOrdersPage() {
                   onClick={() => setExpanded(isExpanded ? null : order.id)}
                   className="w-full flex items-center justify-between p-4 text-left hover:bg-[#F8FAFC] transition-colors"
                 >
-                  <div>
+                  <div className="min-w-0">
                     <div className="font-bold text-sm">
                       {order.customer_first_name} {order.customer_last_name}
                     </div>
-                    <div className="text-xs text-[var(--candy-muted)]">
+                    <div className="text-xs text-[var(--candy-muted)] truncate">
                       {order.customer_email} &bull;{" "}
                       {new Date(order.submitted_at).toLocaleDateString()}
                     </div>
                   </div>
-                  <div className="text-right">
+                  <div className="text-right shrink-0 ml-3">
                     <div className="font-black text-[#16A34A]">
                       ${Number(order.total_price).toFixed(2)}
                     </div>
@@ -85,7 +85,9 @@ export default function AdminOrdersPage() {
                         Note: {order.note}
                       </p>
                     )}
-                    <table className="w-full text-sm">
+
+                    {/* Desktop table */}
+                    <table className="hidden sm:table w-full text-sm">
                       <thead>
                         <tr className="text-left text-[var(--candy-muted)]">
                           <th className="pb-2 font-bold text-xs">Product</th>
@@ -109,6 +111,26 @@ export default function AdminOrdersPage() {
                         ))}
                       </tbody>
                     </table>
+
+                    {/* Mobile stacked items */}
+                    <div className="sm:hidden space-y-2.5">
+                      {items.map((item, i) => (
+                        <div
+                          key={i}
+                          className="flex items-center justify-between py-2 border-t border-[rgba(226,232,240,0.5)] first:border-t-0"
+                        >
+                          <div className="min-w-0">
+                            <div className="text-sm font-bold truncate">{item.name}</div>
+                            <div className="text-xs text-[var(--candy-muted)]">
+                              {item.upc} &bull; Qty: {item.quantity}
+                            </div>
+                          </div>
+                          <div className="text-sm font-bold shrink-0 ml-3">
+                            ${(item.price * item.quantity).toFixed(2)}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>

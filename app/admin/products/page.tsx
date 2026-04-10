@@ -112,7 +112,8 @@ export default function AdminProductsPage() {
         className="mb-4 border border-[var(--candy-border)] rounded-[14px] py-2.5 px-3 bg-white text-sm w-full max-w-sm"
       />
 
-      <div className="bg-white border border-[var(--candy-border)] rounded-[18px] shadow-sm overflow-hidden">
+      {/* Desktop table */}
+      <div className="hidden md:block bg-white border border-[var(--candy-border)] rounded-[18px] shadow-sm overflow-hidden">
         <table className="w-full text-sm">
           <thead>
             <tr className="bg-[#F1F5F9] text-left">
@@ -152,6 +153,46 @@ export default function AdminProductsPage() {
         </table>
         {filtered.length === 0 && (
           <div className="p-6 text-center text-[var(--candy-muted)]">No products found.</div>
+        )}
+      </div>
+
+      {/* Mobile cards */}
+      <div className="md:hidden space-y-3">
+        {filtered.map((p) => (
+          <div
+            key={p.id}
+            className="bg-white border border-[var(--candy-border)] rounded-[18px] p-4 shadow-sm"
+          >
+            <div className="flex items-start justify-between gap-2">
+              <div className="min-w-0">
+                <div className="font-bold text-sm truncate">{p.name}</div>
+                <div className="font-mono text-xs text-[var(--candy-muted)] mt-0.5">{p.upc}</div>
+              </div>
+              <div className="text-right shrink-0">
+                <div className="text-[#16A34A] font-bold text-sm">${Number(p.price).toFixed(2)}</div>
+              </div>
+            </div>
+            <div className="text-xs text-[var(--candy-muted)] mt-1.5">{p.category}</div>
+            <div className="flex gap-2 mt-3 pt-3 border-t border-[var(--candy-border)]">
+              <button
+                onClick={() => { setEditing(p); setCreating(false); }}
+                className="flex items-center gap-1 text-xs font-bold text-[var(--candy-muted)] hover:text-[var(--candy-text)] transition-colors"
+              >
+                <Pencil className="size-3.5" /> Edit
+              </button>
+              <button
+                onClick={() => handleDelete(p.id)}
+                className="flex items-center gap-1 text-xs font-bold text-[#EF4444] hover:text-[#DC2626] transition-colors"
+              >
+                <Trash2 className="size-3.5" /> Delete
+              </button>
+            </div>
+          </div>
+        ))}
+        {filtered.length === 0 && (
+          <div className="bg-white border border-[var(--candy-border)] rounded-[18px] p-6 text-center text-[var(--candy-muted)] shadow-sm">
+            No products found.
+          </div>
         )}
       </div>
     </div>
