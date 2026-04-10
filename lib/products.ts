@@ -48,5 +48,5 @@ export function searchProducts(
     );
   }
 
-  return filtered.sort((a, b) => a.price - b.price);
+  return [...filtered].sort((a, b) => a.price - b.price);
 }
