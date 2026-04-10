@@ -1,4 +1,4 @@
-products = [
+module.exports = [
   {
     id: "upc_038000014697",
     upc: "038000014697",
