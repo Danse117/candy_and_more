@@ -16,23 +16,16 @@ interface RawProduct {
 
 const IMAGE_EXTENSIONS = ["jpg", "jpeg", "png", "webp", "avif", "svg"];
 
-const MIME_TYPES: Record<string, string> = {
-  jpg: "image/jpeg",
-  jpeg: "image/jpeg",
-  png: "image/png",
-  webp: "image/webp",
-  avif: "image/avif",
-  svg: "image/svg+xml",
-};
-
-function findProductImage(upc: string, imagesDir: string): string | null {
+/**
+ * Find a product image in public/product-images/ by UPC.
+ * Returns the public URL path (e.g., "/product-images/038000014697.jpg")
+ * or null if no image exists.
+ */
+function findProductImageUrl(upc: string, imagesDir: string): string | null {
   for (const ext of IMAGE_EXTENSIONS) {
     const filePath = path.join(imagesDir, `${upc}.${ext}`);
     if (fs.existsSync(filePath)) {
-      const buffer = fs.readFileSync(filePath);
-      const base64 = buffer.toString("base64");
-      const mime = MIME_TYPES[ext];
-      return `data:${mime};base64,${base64}`;
+      return `/product-images/${upc}.${ext}`;
     }
   }
   return null;
@@ -50,7 +43,11 @@ async function seed() {
   // Import products — CJS module at project root
   const projectRoot = path.resolve(__dirname, "../..");
   const rawProducts: RawProduct[] = require(path.join(projectRoot, "products"));
-  const imagesDir = path.join(projectRoot, "images");
+  const imagesDir = path.join(projectRoot, "public", "product-images");
+
+  // Clear existing data
+  await db.delete(productsTable);
+  console.log("Cleared existing products.");
 
   console.log(`Seeding ${rawProducts.length} products...`);
 
@@ -59,28 +56,30 @@ async function seed() {
 
   for (let i = 0; i < rawProducts.length; i += BATCH_SIZE) {
     const batch = rawProducts.slice(i, i + BATCH_SIZE);
-    const values = batch.map((p) => {
-      const imageData = findProductImage(p.upc, imagesDir);
-      if (imageData) imagesFound++;
-      return {
-        id: p.id,
-        upc: p.upc,
-        name: p.name,
-        description: p.description || "",
-        price: p.price.toFixed(2),
-        category: p.category,
-        photoUrl: p.photoUrl || "MISSING",
-        imageData,
-      };
-    });
+    await db.insert(productsTable).values(
+      batch.map((p) => {
+        // Check for local image by UPC, even if photoUrl is "MISSING"
+        const localImageUrl = findProductImageUrl(p.upc, imagesDir);
+        const photoUrl = localImageUrl || (p.photoUrl !== "MISSING" ? p.photoUrl : "MISSING");
+        if (localImageUrl) imagesFound++;
 
-    await db.insert(productsTable).values(values);
-    console.log(
-      `  Inserted ${Math.min(i + BATCH_SIZE, rawProducts.length)} / ${rawProducts.length}`
+        return {
+          id: p.id,
+          upc: p.upc,
+          name: p.name,
+          description: p.description || "",
+          price: p.price.toFixed(2),
+          category: p.category,
+          photoUrl,
+        };
+      })
     );
+    console.log(`  Inserted ${Math.min(i + BATCH_SIZE, rawProducts.length)} / ${rawProducts.length}`);
   }
 
-  console.log(`\nSeeding complete! ${imagesFound} products have images.`);
+  console.log(`\nSeeding complete!`);
+  console.log(`  ${rawProducts.length} products inserted`);
+  console.log(`  ${imagesFound} products have local images`);
 }
 
 seed().catch((err) => {

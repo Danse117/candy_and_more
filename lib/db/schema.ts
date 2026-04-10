@@ -8,7 +8,6 @@ export const productsTable = pgTable("products", {
   price: numeric("price", { precision: 10, scale: 2 }).notNull(),
   category: text("category").notNull(),
   photoUrl: text("photo_url").notNull().default("MISSING"),
-  imageData: text("image_data"),  // base64-encoded product image from local images/ folder
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="70" viewBox="0 0 360 70" fill="none">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="360" y2="70" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#34D399"/>
+      <stop offset="1" stop-color="#60A5FA"/>
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="50" height="50" rx="18" fill="url(#g)"/>
+  <path d="M24 28l11-6 11 6v14l-11 6-11-6V28Z" fill="white" fill-opacity=".95"/>
+  <rect x="22" y="44" width="26" height="6" rx="3" fill="white" fill-opacity=".92"/>
+  <text x="74" y="40" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial" font-size="28" font-weight="950" fill="#0F172A">Candy &amp; More</text>
+  <text x="74" y="60" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial" font-size="12" font-weight="800" fill="#64748B">Wholesale catalog</text>
+</svg>
