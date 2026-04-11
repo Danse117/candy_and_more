@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { DM_Sans } from "next/font/google";
 import { connection } from "next/server";
 import { CartProvider } from "@/lib/cart-context";
@@ -29,6 +30,16 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`${dmSans.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans overflow-x-hidden">
+        {/*
+          Synchronous recovery-token redirect. Runs before the Netlify
+          Identity widget script can load and auto-consume the single-use
+          token. If `#recovery_token=...` is in the URL (and we're not on
+          the recovery page already), rewrite to /admin/recover?token=...
+          so that page becomes the only thing that ever calls gotrue.recover().
+        */}
+        <Script id="nf-recovery-redirect" strategy="beforeInteractive">
+          {`(function(){try{var m=(window.location.hash||'').match(/[#&]recovery_token=([^&]+)/);if(m&&window.location.pathname!=='/admin/recover'){window.location.replace('/admin/recover?token='+encodeURIComponent(m[1]));}}catch(e){}})();`}
+        </Script>
         <NetlifyIdentityInit />
         <CartProvider products={products}>{children}</CartProvider>
       </body>
