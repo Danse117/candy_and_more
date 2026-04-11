@@ -11,17 +11,18 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const [authenticated, setAuthenticated] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const isLoginPage = pathname === "/admin/login";
+  const isPublicRoute =
+    pathname === "/admin/login" || pathname === "/admin/recover";
 
   useEffect(() => {
-    if (isLoginPage) return;
+    if (isPublicRoute) return;
     const token = sessionStorage.getItem("nf_token");
     if (!token) {
       router.replace("/admin/login");
       return;
     }
     setAuthenticated(true);
-  }, [router, isLoginPage]);
+  }, [router, isPublicRoute]);
 
   // Close sidebar on route change (mobile)
   useEffect(() => {
@@ -34,7 +35,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     router.replace("/admin/login");
   }
 
-  if (isLoginPage) return <>{children}</>;
+  if (isPublicRoute) return <>{children}</>;
   if (!authenticated) return null;
 
   return (

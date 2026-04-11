@@ -34,32 +34,23 @@ function extractRecoveryToken(): string | null {
 function handleWidgetReady() {
   if (typeof window === "undefined") return;
   const widget = window.netlifyIdentity;
-  if (!widget) {
-    console.log("[nf-identity] widget missing at onReady");
+  if (!widget) return;
+
+  // Intercept password recovery BEFORE calling widget.init(). The widget's
+  // init() auto-processes any `#recovery_token=...` in the URL by calling
+  // gotrue.recover(), which consumes the single-use token server-side even
+  // when the modal fails to open. Redirecting here preserves the token so
+  // /admin/recover can use it exactly once.
+  const recoveryToken = extractRecoveryToken();
+  if (recoveryToken && window.location.pathname !== "/admin/recover") {
+    window.location.replace(
+      `/admin/recover?token=${encodeURIComponent(recoveryToken)}`,
+    );
     return;
   }
 
-  const hash = window.location.hash;
-  const search = window.location.search;
-  console.log("[nf-identity] onReady. hash:", hash, "search:", search);
-
-  widget.on("init", (user) => {
-    console.log("[nf-identity] init event. user:", user);
-  });
-  widget.on("open", (tab) => {
-    console.log("[nf-identity] open event. tab:", tab);
-  });
-  widget.on("close", () => {
-    console.log("[nf-identity] close event");
-  });
-  widget.on("error", (err) => {
-    console.log("[nf-identity] error event:", err);
-  });
-
-  // Global login handler — fires after invite signup, password recovery,
-  // and normal login. Store token and send user to /admin.
+  // Normal flow: register the global login handler then initialize the widget.
   widget.on("login", (user) => {
-    console.log("[nf-identity] login event");
     const u = user as { token?: { access_token?: string } } | undefined;
     const token = u?.token?.access_token;
     if (token) {
@@ -69,37 +60,6 @@ function handleWidgetReady() {
   });
 
   widget.init();
-  console.log("[nf-identity] init() called");
-
-  // Defensive fallback: if init didn't pick up a recovery_token from the hash
-  // (race conditions or non-standard link formats), manually trigger the flow.
-  const recoveryToken = extractRecoveryToken();
-  if (recoveryToken) {
-    console.log("[nf-identity] found recovery_token in URL, waiting briefly for widget auto-open");
-    setTimeout(() => {
-      const openEl = document.querySelector(".netlify-identity-modal");
-      if (openEl) {
-        console.log("[nf-identity] widget modal already open, no fallback needed");
-        return;
-      }
-      console.log("[nf-identity] widget did not auto-open, calling gotrue.recover manually");
-      const gotrue = widget.gotrue;
-      if (gotrue && typeof gotrue.recover === "function") {
-        gotrue
-          .recover(recoveryToken, true)
-          .then((result) => {
-            console.log("[nf-identity] gotrue.recover resolved:", result);
-          })
-          .catch((err: unknown) => {
-            console.log("[nf-identity] gotrue.recover error:", err);
-            widget.open("login");
-          });
-      } else {
-        console.log("[nf-identity] gotrue.recover unavailable, opening login modal as fallback");
-        widget.open("login");
-      }
-    }, 400);
-  }
 }
 
 export default function NetlifyIdentityInit() {
