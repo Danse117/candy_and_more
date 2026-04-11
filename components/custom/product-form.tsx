@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Upload } from "lucide-react";
 
 interface ProductFormData {
@@ -15,7 +15,7 @@ interface ProductFormData {
 
 interface ProductFormProps {
   initial?: ProductFormData;
-  onSave: (data: ProductFormData) => Promise<void>;
+  onSave: (data: ProductFormData, file: File | null) => Promise<void>;
   onCancel: () => void;
 }
 
@@ -49,29 +49,23 @@ export default function ProductForm({ initial, onSave, onCancel }: ProductFormPr
   const [saving, setSaving] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Revoke any blob URL we created when preview changes or the form unmounts.
+  // Closes over the *old* preview value, so the cleanup revokes the previous
+  // URL right before the effect re-runs with the new one.
+  useEffect(() => {
+    return () => {
+      if (preview?.startsWith("blob:")) URL.revokeObjectURL(preview);
+    };
+  }, [preview]);
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
-
-    // 1. Create or update the product row first.
-    await onSave(form);
-
-    // 2. If the user picked a file, upload it using the known id.
-    //    For new products the admin POST handler generates id = `upc_${upc}`.
-    if (file) {
-      const productId = form.id || `upc_${form.upc}`;
-      const fd = new FormData();
-      fd.append("file", file);
-      fd.append("productId", productId);
-      const token = sessionStorage.getItem("nf_token");
-      await fetch("/api/admin/upload", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-        body: fd,
-      });
+    try {
+      await onSave(form, file);
+    } finally {
+      setSaving(false);
     }
-
-    setSaving(false);
   }
 
   const inputClass =
@@ -125,9 +119,10 @@ export default function ProductForm({ initial, onSave, onCancel }: ProductFormPr
       </div>
 
       {/* Image picker — always visible, image is optional */}
-      <div
+      <button
+        type="button"
         onClick={() => inputRef.current?.click()}
-        className="border-2 border-dashed border-[var(--candy-border)] rounded-xl p-4 text-center cursor-pointer hover:border-[var(--candy-accent)] transition-colors"
+        className="border-2 border-dashed border-[var(--candy-border)] rounded-xl p-4 text-center w-full cursor-pointer hover:border-[var(--candy-accent)] transition-colors"
       >
         {preview ? (
           <img
@@ -148,13 +143,15 @@ export default function ProductForm({ initial, onSave, onCancel }: ProductFormPr
           className="hidden"
           onChange={(e) => {
             const f = e.target.files?.[0];
-            if (f) {
-              setFile(f);
-              setPreview(URL.createObjectURL(f));
-            }
+            if (!f) return;
+            setFile(f);
+            setPreview((prev) => {
+              if (prev?.startsWith("blob:")) URL.revokeObjectURL(prev);
+              return URL.createObjectURL(f);
+            });
           }}
         />
-      </div>
+      </button>
 
       <div className="flex gap-2.5 pt-2">
         <button

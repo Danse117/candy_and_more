@@ -32,25 +32,66 @@ export default function AdminProductsPage() {
     loadProducts(); // eslint-disable-line react-hooks/set-state-in-effect
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  async function handleCreate(data: { upc: string; name: string; description: string; price: string; category: string; photoUrl: string }) {
-    await fetch("/api/admin/products", {
+  async function handleCreate(
+    data: { upc: string; name: string; description: string; price: string; category: string; photoUrl: string },
+    file: File | null,
+  ) {
+    const res = await fetch("/api/admin/products", {
       method: "POST",
       headers,
       body: JSON.stringify(data),
     });
+    if (!res.ok) {
+      alert("Failed to save product.");
+      return;
+    }
+    if (file) {
+      const productId = `upc_${data.upc}`;
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("productId", productId);
+      const uploadRes = await fetch("/api/admin/upload", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: fd,
+      });
+      if (!uploadRes.ok) {
+        alert(`Image upload failed (${uploadRes.status}). Product saved without image.`);
+      }
+    }
+    await loadProducts();
     setCreating(false);
-    loadProducts();
   }
 
-  async function handleUpdate(data: { id?: string; upc: string; name: string; description: string; price: string; category: string; photoUrl: string }) {
+  async function handleUpdate(
+    data: { id?: string; upc: string; name: string; description: string; price: string; category: string; photoUrl: string },
+    file: File | null,
+  ) {
     if (!data.id) return;
-    await fetch(`/api/admin/products/${data.id}`, {
+    const res = await fetch(`/api/admin/products/${data.id}`, {
       method: "PUT",
       headers,
       body: JSON.stringify(data),
     });
+    if (!res.ok) {
+      alert("Failed to save product.");
+      return;
+    }
+    if (file) {
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("productId", data.id);
+      const uploadRes = await fetch("/api/admin/upload", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: fd,
+      });
+      if (!uploadRes.ok) {
+        alert(`Image upload failed (${uploadRes.status}). Product saved without image.`);
+      }
+    }
+    await loadProducts();
     setEditing(null);
-    loadProducts();
   }
 
   async function handleDelete(id: string) {
@@ -86,6 +127,7 @@ export default function AdminProductsPage() {
             {creating ? "Create Product" : "Edit Product"}
           </h3>
           <ProductForm
+            key={editing?.id ?? "new"}
             initial={
               editing
                 ? {
