@@ -11,7 +11,7 @@ interface Product {
   description: string;
   price: string;
   category: string;
-  photo_url: string;
+  photoUrl: string;
 }
 
 export default function AdminProductsPage() {
@@ -137,7 +137,7 @@ export default function AdminProductsPage() {
                     description: editing.description,
                     price: editing.price,
                     category: editing.category,
-                    photoUrl: editing.photo_url,
+                    photoUrl: editing.photoUrl,
                   }
                 : undefined
             }
@@ -169,7 +169,21 @@ export default function AdminProductsPage() {
           <tbody>
             {filtered.map((p) => (
               <tr key={p.id} className="border-t border-[var(--candy-border)]">
-                <td className="px-4 py-3 font-bold">{p.name}</td>
+                <td className="px-4 py-3 font-bold">
+                  <div className="flex items-center gap-3">
+                    {p.photoUrl && p.photoUrl !== "MISSING" ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={p.photoUrl}
+                        alt={p.name}
+                        className="size-10 rounded-lg object-cover border border-[var(--candy-border)] shrink-0"
+                      />
+                    ) : (
+                      <div className="size-10 rounded-lg bg-[#F1F5F9] border border-[var(--candy-border)] shrink-0" />
+                    )}
+                    <span className="min-w-0">{p.name}</span>
+                  </div>
+                </td>
                 <td className="px-4 py-3 font-mono text-xs text-[var(--candy-muted)]">{p.upc}</td>
                 <td className="px-4 py-3">{p.category}</td>
                 <td className="px-4 py-3 text-right text-[#16A34A] font-bold">${Number(p.price).toFixed(2)}</td>
@@ -205,16 +219,30 @@ export default function AdminProductsPage() {
             key={p.id}
             className="bg-white border border-[var(--candy-border)] rounded-[18px] p-4 shadow-sm"
           >
-            <div className="flex items-start justify-between gap-2">
-              <div className="min-w-0">
-                <div className="font-bold text-sm truncate">{p.name}</div>
-                <div className="font-mono text-xs text-[var(--candy-muted)] mt-0.5">{p.upc}</div>
-              </div>
-              <div className="text-right shrink-0">
-                <div className="text-[#16A34A] font-bold text-sm">${Number(p.price).toFixed(2)}</div>
+            <div className="flex items-start gap-3">
+              {p.photoUrl && p.photoUrl !== "MISSING" ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={p.photoUrl}
+                  alt={p.name}
+                  className="size-14 rounded-lg object-cover border border-[var(--candy-border)] shrink-0"
+                />
+              ) : (
+                <div className="size-14 rounded-lg bg-[#F1F5F9] border border-[var(--candy-border)] shrink-0" />
+              )}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <div className="font-bold text-sm truncate">{p.name}</div>
+                    <div className="font-mono text-xs text-[var(--candy-muted)] mt-0.5">{p.upc}</div>
+                  </div>
+                  <div className="text-right shrink-0">
+                    <div className="text-[#16A34A] font-bold text-sm">${Number(p.price).toFixed(2)}</div>
+                  </div>
+                </div>
+                <div className="text-xs text-[var(--candy-muted)] mt-1.5">{p.category}</div>
               </div>
             </div>
-            <div className="text-xs text-[var(--candy-muted)] mt-1.5">{p.category}</div>
             <div className="flex gap-2 mt-3 pt-3 border-t border-[var(--candy-border)]">
               <button
                 onClick={() => { setEditing(p); setCreating(false); }}

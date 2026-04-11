@@ -11,6 +11,16 @@ export default function AdminLoginPage() {
     if (initRef.current) return;
     initRef.current = true;
 
+    // Inject CSS to hide signup tab in the Netlify Identity widget
+    const style = document.createElement("style");
+    style.id = "nf-hide-signup";
+    style.textContent = `
+      .netlify-identity-menu a[href="#signup"],
+      .netlify-identity-modal a[href="#signup"],
+      [class*="signup"] { display: none !important; }
+    `;
+    document.head.appendChild(style);
+
     // Wait for the global netlify identity widget (loaded via script tag in root layout)
     function waitForWidget() {
       if (window.netlifyIdentity) {
@@ -28,6 +38,10 @@ export default function AdminLoginPage() {
       }
     }
     waitForWidget();
+
+    return () => {
+      document.getElementById("nf-hide-signup")?.remove();
+    };
   }, []);
 
   function handleLogin() {
