@@ -21,17 +21,11 @@ export default function AdminLoginPage() {
     `;
     document.head.appendChild(style);
 
-    // Wait for the global netlify identity widget (loaded via script tag in root layout)
+    // Wait for the global netlify identity widget (loaded in root layout) to be ready.
+    // The login handler is registered globally in NetlifyIdentityInit, so we only need
+    // to flip the button state here.
     function waitForWidget() {
       if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("login", (user: unknown) => {
-          const u = user as { token?: { access_token?: string } } | undefined;
-          const token = u?.token?.access_token;
-          if (token) {
-            sessionStorage.setItem("nf_token", token);
-            window.location.href = "/admin";
-          }
-        });
         setReady(true);
       } else {
         setTimeout(waitForWidget, 50);

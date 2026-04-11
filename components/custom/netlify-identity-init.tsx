@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import Script from "next/script";
 
 declare global {
   interface Window {
@@ -14,25 +14,22 @@ declare global {
 }
 
 export default function NetlifyIdentityInit() {
-  const initRef = useRef(false);
-
-  useEffect(() => {
-    if (initRef.current) return;
-    initRef.current = true;
-
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.init();
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.src = "https://identity.netlify.com/v1/netlify-identity-widget.js";
-    script.async = true;
-    script.onload = () => {
-      window.netlifyIdentity?.init();
-    };
-    document.head.appendChild(script);
-  }, []);
-
-  return null;
+  return (
+    <Script
+      src="https://identity.netlify.com/v1/netlify-identity-widget.js"
+      strategy="afterInteractive"
+      onReady={() => {
+        if (!window.netlifyIdentity) return;
+        window.netlifyIdentity.init();
+        window.netlifyIdentity.on("login", (user?: unknown) => {
+          const u = user as { token?: { access_token?: string } } | undefined;
+          const token = u?.token?.access_token;
+          if (token) {
+            sessionStorage.setItem("nf_token", token);
+            window.location.href = "/admin";
+          }
+        });
+      }}
+    />
+  );
 }
