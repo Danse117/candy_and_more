@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import ImageUploader from "./image-uploader";
+import { useRef, useState } from "react";
+import { Upload } from "lucide-react";
 
 interface ProductFormData {
   id?: string;
@@ -42,12 +42,35 @@ export default function ProductForm({ initial, onSave, onCancel }: ProductFormPr
       photoUrl: "MISSING",
     }
   );
+  const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(
+    initial?.photoUrl && initial.photoUrl !== "MISSING" ? initial.photoUrl : null
+  );
   const [saving, setSaving] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
+
+    // 1. Create or update the product row first.
     await onSave(form);
+
+    // 2. If the user picked a file, upload it using the known id.
+    //    For new products the admin POST handler generates id = `upc_${upc}`.
+    if (file) {
+      const productId = form.id || `upc_${form.upc}`;
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("productId", productId);
+      const token = sessionStorage.getItem("nf_token");
+      await fetch("/api/admin/upload", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: fd,
+      });
+    }
+
     setSaving(false);
   }
 
@@ -101,13 +124,37 @@ export default function ProductForm({ initial, onSave, onCancel }: ProductFormPr
         </select>
       </div>
 
-      {form.id && (
-        <ImageUploader
-          productId={form.id}
-          currentUrl={form.photoUrl}
-          onUploaded={(url) => setForm({ ...form, photoUrl: url })}
+      {/* Image picker — always visible, image is optional */}
+      <div
+        onClick={() => inputRef.current?.click()}
+        className="border-2 border-dashed border-[var(--candy-border)] rounded-xl p-4 text-center cursor-pointer hover:border-[var(--candy-accent)] transition-colors"
+      >
+        {preview ? (
+          <img
+            src={preview}
+            alt="Product preview"
+            className="max-h-[120px] mx-auto mb-2 object-contain"
+          />
+        ) : (
+          <Upload className="size-8 mx-auto mb-2 text-[var(--candy-muted)]" />
+        )}
+        <p className="text-xs text-[var(--candy-muted)]">
+          {file ? file.name : "Click to upload image (optional)"}
+        </p>
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            if (f) {
+              setFile(f);
+              setPreview(URL.createObjectURL(f));
+            }
+          }}
         />
-      )}
+      </div>
 
       <div className="flex gap-2.5 pt-2">
         <button
