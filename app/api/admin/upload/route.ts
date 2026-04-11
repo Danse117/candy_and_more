@@ -1,7 +1,9 @@
+// app/api/admin/upload/route.ts
 import { NextRequest, NextResponse } from "next/server";
+import { eq } from "drizzle-orm";
 import { validateAdminToken } from "@/lib/auth";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
+import { getDb } from "@/lib/db";
+import { productImagesTable, productsTable } from "@/lib/db/schema";
 
 export async function POST(request: NextRequest) {
   const user = await validateAdminToken(request);
@@ -12,18 +14,41 @@ export async function POST(request: NextRequest) {
   const productId = formData.get("productId") as string | null;
 
   if (!file || !productId) {
-    return NextResponse.json({ error: "Missing file or productId" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Missing file or productId" },
+      { status: 400 }
+    );
   }
 
-  const ext = file.name.split(".").pop() || "jpg";
-  const filename = `${productId}.${ext}`;
-  const dir = path.join(process.cwd(), "public", "images");
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const contentType = file.type || "image/jpeg";
+  const now = new Date();
 
-  await mkdir(dir, { recursive: true });
+  const db = getDb();
 
-  const bytes = await file.arrayBuffer();
-  await writeFile(path.join(dir, filename), Buffer.from(bytes));
+  await db
+    .insert(productImagesTable)
+    .values({
+      productId,
+      data: buffer,
+      contentType,
+      updatedAt: now,
+    })
+    .onConflictDoUpdate({
+      target: productImagesTable.productId,
+      set: {
+        data: buffer,
+        contentType,
+        updatedAt: now,
+      },
+    });
 
-  const url = `/images/${filename}`;
+  // Point the catalog at the serving route so public pages render the new image.
+  const url = `/api/images/${productId}`;
+  await db
+    .update(productsTable)
+    .set({ photoUrl: url, updatedAt: now })
+    .where(eq(productsTable.id, productId));
+
   return NextResponse.json({ ok: true, url });
 }
