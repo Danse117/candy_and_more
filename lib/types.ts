@@ -16,7 +16,9 @@ export interface CartItem {
 export interface OrderPayload {
   customerFirstName: string;
   customerLastName: string;
-  customerEmail: string;
+  customerEmail?: string;
+  customerPhone?: string;
+  storeAddress?: string;
   note?: string;
   items: Array<{
     productId: string;

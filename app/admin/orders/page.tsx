@@ -6,7 +6,9 @@ interface Order {
   id: number;
   customerFirstName: string;
   customerLastName: string;
-  customerEmail: string;
+  customerEmail: string | null;
+  customerPhone: string | null;
+  storeAddress: string | null;
   note: string | null;
   items: string; // JSON string
   totalPrice: string;
@@ -96,7 +98,7 @@ export default function AdminOrdersPage() {
                       {order.customerFirstName} {order.customerLastName}
                     </div>
                     <div className="text-xs text-[var(--candy-muted)] truncate">
-                      {order.customerEmail} &bull; {submittedDate}
+                      {[order.customerEmail, order.customerPhone].filter(Boolean).join(" • ") || "No contact info"} &bull; {submittedDate}
                     </div>
                   </div>
                   <div className="text-right shrink-0 ml-3">
@@ -111,6 +113,24 @@ export default function AdminOrdersPage() {
 
                 {isExpanded && (
                   <div className="border-t border-[var(--candy-border)] p-4">
+                    {/* Customer details */}
+                    <div className="text-sm mb-3 space-y-1">
+                      {order.customerEmail && (
+                        <p className="text-[var(--candy-muted)]">
+                          <span className="font-bold">Email:</span> {order.customerEmail}
+                        </p>
+                      )}
+                      {order.customerPhone && (
+                        <p className="text-[var(--candy-muted)]">
+                          <span className="font-bold">Phone:</span> {order.customerPhone}
+                        </p>
+                      )}
+                      {order.storeAddress && (
+                        <p className="text-[var(--candy-muted)]">
+                          <span className="font-bold">Store Address:</span> {order.storeAddress}
+                        </p>
+                      )}
+                    </div>
                     {order.note && (
                       <p className="text-sm text-[var(--candy-muted)] mb-3 italic">
                         Note: {order.note}

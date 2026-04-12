@@ -31,7 +31,9 @@ export const ordersTable = pgTable("orders", {
   id: serial("id").primaryKey(),
   customerFirstName: text("customer_first_name").notNull(),
   customerLastName: text("customer_last_name").notNull(),
-  customerEmail: text("customer_email").notNull(),
+  customerEmail: text("customer_email"),
+  customerPhone: text("customer_phone"),
+  storeAddress: text("store_address"),
   note: text("note"),
   items: text("items").notNull(), // JSON stringified array
   totalPrice: numeric("total_price", { precision: 10, scale: 2 }).notNull(),

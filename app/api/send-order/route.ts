@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Validate required fields
-  if (!body.customerFirstName || !body.customerLastName || !body.customerEmail) {
+  if (!body.customerFirstName || !body.customerLastName) {
     return NextResponse.json(
       { error: "Missing required customer information" },
       { status: 400 }
@@ -32,7 +32,9 @@ export async function POST(request: NextRequest) {
     await db.insert(ordersTable).values({
       customerFirstName: body.customerFirstName,
       customerLastName: body.customerLastName,
-      customerEmail: body.customerEmail,
+      customerEmail: body.customerEmail || null,
+      customerPhone: body.customerPhone || null,
+      storeAddress: body.storeAddress || null,
       note: body.note || null,
       items: JSON.stringify(body.items),
       totalPrice: body.totalPrice.toString(),
@@ -43,21 +45,23 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Failed to save order" }, { status: 500 });
   }
 
-  // 2. Send confirmation email — nice-to-have. Failure is logged, not returned.
-  try {
-    const resend = new Resend(process.env.RESEND_API_KEY);
-    const html = buildOrderConfirmationHtml(body);
-    const { error } = await resend.emails.send({
-      from: "Candy & More <orders@candyandmoredistrocorp.com>",
-      to: body.customerEmail,
-      subject: `Order Confirmation — Candy & More`,
-      html,
-    });
-    if (error) {
-      console.error("[send-order] Resend returned error:", error);
+  // 2. Send confirmation email — only if customer provided an email.
+  if (body.customerEmail) {
+    try {
+      const resend = new Resend(process.env.RESEND_API_KEY);
+      const html = buildOrderConfirmationHtml(body);
+      const { error } = await resend.emails.send({
+        from: "Candy & More <orders@candyandmoredistrocorp.com>",
+        to: body.customerEmail,
+        subject: `Order Confirmation — Candy & More`,
+        html,
+      });
+      if (error) {
+        console.error("[send-order] Resend returned error:", error);
+      }
+    } catch (err) {
+      console.error("[send-order] Resend threw:", err);
     }
-  } catch (err) {
-    console.error("[send-order] Resend threw:", err);
   }
 
   return NextResponse.json({ ok: true });

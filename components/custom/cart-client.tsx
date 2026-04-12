@@ -13,6 +13,8 @@ export default function CartClient() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [storeAddress, setStoreAddress] = useState("");
   const [note, setNote] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -43,7 +45,9 @@ export default function CartClient() {
     const payload: OrderPayload = {
       customerFirstName: firstName,
       customerLastName: lastName,
-      customerEmail: email,
+      customerEmail: email || undefined,
+      customerPhone: phone || undefined,
+      storeAddress: storeAddress || undefined,
       note: note || undefined,
       items: cartProducts.map(({ product, quantity }) => ({
         productId: product.id,
@@ -102,7 +106,7 @@ export default function CartClient() {
           <div className="border border-[var(--candy-green-border)] bg-[var(--candy-green-bg)] rounded-[20px] p-8 text-center">
             <h2 className="text-xl font-black text-[#065F46] mb-2">Order Submitted!</h2>
             <p className="text-[#065F46] text-sm">
-              A confirmation email has been sent. We&apos;ll be in touch soon.
+              Your order has been received. We&apos;ll be in touch soon.
             </p>
             <Link
               href="/"
@@ -164,11 +168,23 @@ export default function CartClient() {
                   />
                 </div>
                 <input
-                  required
                   type="email"
-                  placeholder="Email address"
+                  placeholder="Email address (optional)"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  className="mt-3 border border-[var(--candy-border)] rounded-[14px] py-2.5 px-3 bg-white text-sm w-full"
+                />
+                <input
+                  type="tel"
+                  placeholder="Phone number (optional)"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="mt-3 border border-[var(--candy-border)] rounded-[14px] py-2.5 px-3 bg-white text-sm w-full"
+                />
+                <input
+                  placeholder="Store address (optional)"
+                  value={storeAddress}
+                  onChange={(e) => setStoreAddress(e.target.value)}
                   className="mt-3 border border-[var(--candy-border)] rounded-[14px] py-2.5 px-3 bg-white text-sm w-full"
                 />
                 <textarea
