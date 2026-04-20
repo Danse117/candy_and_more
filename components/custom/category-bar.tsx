@@ -9,8 +9,9 @@ const CATEGORY_ICONS: Record<string, string> = {
   "Gum & Mints": "🍃",
   "Protein & Energy Bars": "💪",
   "Noodles & Soups": "🍜",
-  "Rolling Papers": "📜",
+  "Smoking Supplies": "🚬",
   "Fragrances & Candles": "🕯️",
+  Pharmacy: "💊",
 };
 
 interface CategoryBarProps {

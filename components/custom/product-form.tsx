@@ -27,8 +27,9 @@ const CATEGORIES = [
   "Gum & Mints",
   "Protein & Energy Bars",
   "Noodles & Soups",
-  "Rolling Papers",
+  "Smoking Supplies",
   "Fragrances & Candles",
+  "Pharmacy",
 ];
 
 export default function ProductForm({ initial, onSave, onCancel }: ProductFormProps) {

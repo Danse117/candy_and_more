@@ -3752,7 +3752,7 @@ module.exports = [
     name: "OCB PREMIUM SLIM ROLLING PAPER 24CT",
     description: "",
     price: 49.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3761,7 +3761,7 @@ module.exports = [
     name: "OCB ORGANIC HEMP KING SIZE 24CT BOX",
     description: "",
     price: 49.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3770,7 +3770,7 @@ module.exports = [
     name: "OCB UNBLEACHED PAPERS VIRGIN KING SLIM - 24 LEAVES IN 32 BOOKLETS FOR PREMIUM SMOKING EXPERIENCE",
     description: "",
     price: 49.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3779,7 +3779,7 @@ module.exports = [
     name: "OCB BAMBOO ROLLING PAPERS SLIM 24CT - ECO-FRIENDLY & NATURAL SMOKING EXPERIENCE",
     description: "",
     price: 49.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3788,7 +3788,7 @@ module.exports = [
     name: "OCB PREMIUM 1 1/4 ROLLING PAPERS - 24CT | ULTRA THIN & QUALITY SMOKING EXPERIENCE",
     description: "",
     price: 40.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3797,7 +3797,7 @@ module.exports = [
     name: "OCB ORGANIC HEMP 1 1/4 24CT BOX",
     description: "",
     price: 40.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3806,7 +3806,7 @@ module.exports = [
     name: "OCB VIRGIN 1 1/4 PAPERS",
     description: "",
     price: 40.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3815,7 +3815,7 @@ module.exports = [
     name: "OCB ORGANIC HEMP ROLLING PAPERS KING SIZE SLIM PLUS TIPS | ECO-FRIENDLY & NATURAL SMOKING | 24/32 CT. BOX",
     description: "",
     price: 49.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3824,7 +3824,7 @@ module.exports = [
     name: "OCB PREMIUM 1\u00bc ROLLING PAPERS WITH TIPS - 24 PACKS OF 50 CT FOR A SMOOTH SMOKE",
     description: "",
     price: 40.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3833,7 +3833,7 @@ module.exports = [
     name: "BOB MARLEY 50CT",
     description: "",
     price: 39.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3842,7 +3842,7 @@ module.exports = [
     name: "BOB MARLEY UNBLEACHED ORGANIC HEMP KING SIZE",
     description: "",
     price: 39.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3851,7 +3851,7 @@ module.exports = [
     name: "RIZLA ROLLING PAPERS BOB MARLEY KING SIZE ROLLING PAPERS",
     description: "",
     price: 40.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3860,7 +3860,7 @@ module.exports = [
     name: "BOB MARLEY ORGANIC HEMP 33 KING SIZE LEAVES NATURAL GUM ROLLING PAPERS WITH 33 TIPS",
     description: "",
     price: 40.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3869,7 +3869,7 @@ module.exports = [
     name: "BOB MARLEY 1 1/4 CIGARETTE ROLLING PAPERS 25",
     description: "",
     price: 32.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3878,7 +3878,7 @@ module.exports = [
     name: "BOB MARLEY UNBLEACHED ORGANIC SIZE 1 1/4 ROLLING PAPER - 1 BOX = 1250 PAPERS",
     description: "",
     price: 24.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3887,7 +3887,7 @@ module.exports = [
     name: "HIGH HEMP ROLLING PAPER KING SIZE SLIM - 25CT",
     description: "",
     price: 29.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3896,7 +3896,7 @@ module.exports = [
     name: 'HIGH HEMP 1 1/4" PAPERS (25 COUNT)',
     description: "",
     price: 24.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3905,7 +3905,7 @@ module.exports = [
     name: "SMOKING BRAND ROLLING PAPER - DE LUXE - KING SIZE (FULL BOX)",
     description: "",
     price: 29.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3914,7 +3914,7 @@ module.exports = [
     name: "SMOKING BROWN KS - 50 STK",
     description: "",
     price: 29.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3923,7 +3923,7 @@ module.exports = [
     name: "SMOKING ORGANIC KING SIZE",
     description: "",
     price: 32.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3932,7 +3932,7 @@ module.exports = [
     name: "SMOKING DELUXE BLACK KING SIZE AND TIPS",
     description: "",
     price: 33.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3941,7 +3941,7 @@ module.exports = [
     name: "SMOKING BRAND ROLLING PAPER - BROWN UNBLEACHED - 1 1/4 FULL BOX",
     description: "",
     price: 27.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3950,7 +3950,7 @@ module.exports = [
     name: "SMOKING THINNEST BROWN KING SIZE PAPIER + TIPS",
     description: "",
     price: 35.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3959,7 +3959,7 @@ module.exports = [
     name: "SMOKING BROWN KING SIZE ROLLING PAPERS + TIPS (24PCS BOX)",
     description: "",
     price: 29.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3968,7 +3968,7 @@ module.exports = [
     name: "ELEMENTS ULTRA THIN KING SIZE SLIM PAPERS - (50 COUNT DISPLAY)",
     description: "",
     price: 39.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3977,7 +3977,7 @@ module.exports = [
     name: "1 BOX - ELEMENTS RED KING SIZE SLIM SLOW BURN ROLLING PAPER - TOTAL 1600 PAPERS",
     description: "",
     price: 40.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3986,7 +3986,7 @@ module.exports = [
     name: "ELEMENTS GREEN KING SIZE SLIM UNREFINED PLANT ROLLING PAPER",
     description: "",
     price: 40.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -3995,7 +3995,7 @@ module.exports = [
     name: "ELEMENTS PHANTOM KING SIZE SLIM ROLLING PAPERS BOX 50",
     description: "",
     price: 35.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4004,7 +4004,7 @@ module.exports = [
     name: "ELEMENTS PINK PAPERS KS 50CT - CIGARETTES PAPERS",
     description: "",
     price: 38.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4013,7 +4013,7 @@ module.exports = [
     name: "ELEMENTS U/THIN PAPER 1.5 25CT - CIGARETTES PAPERS",
     description: "",
     price: 34.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4022,7 +4022,7 @@ module.exports = [
     name: "1 CAJA - ELEMENTS RED CONNOISSEUR KING SIZE SLIM SLOW BURNING PAPEL LIAR + PUNTAS",
     description: "",
     price: 38.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4031,7 +4031,7 @@ module.exports = [
     name: "ELEMENTS RED SINGLE WIDE 25CT",
     description: "",
     price: 22.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4040,7 +4040,7 @@ module.exports = [
     name: "ELEMENTS ARTESANO KS SLIM 15CT",
     description: "",
     price: 34.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4049,7 +4049,7 @@ module.exports = [
     name: "ELEMENTS CONNOISSEUR KS 24CT - CIGARETTES PAPERS",
     description: "",
     price: 38.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4058,7 +4058,7 @@ module.exports = [
     name: "HIGH TEA, HERBAL CONES, ORIGINAL",
     description: "",
     price: 35.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4067,7 +4067,7 @@ module.exports = [
     name: "HIGH TEA NON TOBACCO ALL NATURAL HERBAL SMOKING WRAPS - GREEN APPLE - 125 SELF ROLLING WRAPS,",
     description: "",
     price: 19.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4076,7 +4076,7 @@ module.exports = [
     name: "HIGH TEA WRAPS JUICY RIPE STRAWBERRY 25/5 CT- BUITRAGO CIGARS",
     description: "",
     price: 19.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4085,7 +4085,7 @@ module.exports = [
     name: "HIGH TEA WRAPS JUICY PURE PEACH 25/5 CT - BUITRAGO CIGARS",
     description: "",
     price: 19.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4094,7 +4094,7 @@ module.exports = [
     name: "HIGH TEA WRAPS JUICY PURE PEACH 25/5 CT - BUITRAGO CIGARS",
     description: "",
     price: 19.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4103,7 +4103,7 @@ module.exports = [
     name: "HIGH TEA WRAPS HERBAL HIGH TEA WILD HONEY 25/5 CT-BUITRAGO CIGARS",
     description: "",
     price: 19.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4112,7 +4112,7 @@ module.exports = [
     name: "HIGH TEA NON TOBACCO ALL NATURAL HERBAL SMOKING WRAPS - JUICY GRAPE - 125 SELF ROLLING WRAP",
     description: "",
     price: 19.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4121,7 +4121,7 @@ module.exports = [
     name: "HIGH TEA NON TOBACCO ALL NATURAL HERBAL SMOKING WRAPS - MANGO DREAM - 125 SELF ROLLING",
     description: "",
     price: 19.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4130,7 +4130,7 @@ module.exports = [
     name: "HIGH TEA WRAPS MAD MELON - 100% ORGANIC SMOKING WRAPS (25 PACKS OF 5 CT)",
     description: "",
     price: 19.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4139,7 +4139,7 @@ module.exports = [
     name: "FILTERS SMOKING 8 MM LONG (GREEN) 1 X 25",
     description: "",
     price: 29.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4148,7 +4148,7 @@ module.exports = [
     name: "WHOLESALE SMOKING FILTER CLASSIC SLIM LONG 30 BAGS EACH 120 FILTERS",
     description: "",
     price: 29.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4157,7 +4157,7 @@ module.exports = [
     name: "ELEMENTS CONES PINK KS 3PK 32CT - CIGARETTES PAPERS",
     description: "",
     price: 49.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4166,7 +4166,7 @@ module.exports = [
     name: "ELEMENTS ULTRA THIN RICE ROLLING PAPERS - 1 1/4 SIZE PRE ROLLED CONES 6 PER PACK",
     description: "",
     price: 49.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4175,7 +4175,7 @@ module.exports = [
     name: "BLAZY SUSAN ROLLING CONES - 20 COUNTS PER PACK - 12 PACKS PER BOX",
     description: "",
     price: 49.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4184,7 +4184,7 @@ module.exports = [
     name: "BLAZY SUSAN PURPLE 1-1/4 CONES BOX OF 21",
     description: "",
     price: 29.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4193,7 +4193,7 @@ module.exports = [
     name: "BLAZY SUSAN RICE SLIM KS 50CT",
     description: "",
     price: 44.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4202,7 +4202,7 @@ module.exports = [
     name: "BLAZY SUSAN DELUXE KING SIZE SLIM COFFIN KIT / PINK",
     description: "",
     price: 4.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4211,7 +4211,7 @@ module.exports = [
     name: "RAW CONE CLASSIC KING SIZE 20CT -",
     description: "",
     price: 54.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4220,7 +4220,7 @@ module.exports = [
     name: "RAW CL CONES 1.25 20PK 12CT",
     description: "",
     price: 54.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4229,7 +4229,7 @@ module.exports = [
     name: "RAW LYRICAL BUD WRAP TERP ENHANCED LEMONADE",
     description: "",
     price: 59.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4238,7 +4238,7 @@ module.exports = [
     name: "RAW ORGANIC HEMP CONNOISSEUR KINGSIZE SLIM",
     description: "",
     price: 39.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4247,7 +4247,7 @@ module.exports = [
     name: "RAW - 1.25 ORGANIC CONNOISSEUR - 24 PACK",
     description: "",
     price: 35.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4256,7 +4256,7 @@ module.exports = [
     name: "RAW ROLLING PAPERS CLASSIC ARTESANO KING SIZE SLIM - CASE OF 15",
     description: "",
     price: 39.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4265,7 +4265,7 @@ module.exports = [
     name: "RAW CLASSIC ARTESANO",
     description: "",
     price: 34.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4274,7 +4274,7 @@ module.exports = [
     name: "RAW - ARTESANO ORGANIC KING SIZE SLIM PAPER",
     description: "",
     price: 39.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4283,7 +4283,7 @@ module.exports = [
     name: "RAW SUPERNATURAL ROLLING CONE - 12 INCH",
     description: "",
     price: 48.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4292,7 +4292,7 @@ module.exports = [
     name: "RAW 300'S ROLLING PAPERS 1 1/4",
     description: "",
     price: 90.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4301,7 +4301,7 @@ module.exports = [
     name: "RAW CLASSIC 1 1/4 500'S ROLLING PAPER (BOX OF 20)",
     description: "",
     price: 65.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4310,7 +4310,7 @@ module.exports = [
     name: "RAW KING SIZE SLIM 200 S 40CT/",
     description: "",
     price: 96.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4319,7 +4319,7 @@ module.exports = [
     name: "RAW - ORGANIC HEMP PAPERS - 1 1BY2",
     description: "",
     price: 25.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4328,7 +4328,7 @@ module.exports = [
     name: "RAW BLACK SINGLE WIDE (DOUBLE FEED) 100CT",
     description: "",
     price: 25.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4337,7 +4337,7 @@ module.exports = [
     name: "RAW CLASSIC REGULAR CUT CORNERS ROLLING PAPERS - BOX OF 50 -",
     description: "",
     price: 25.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4346,7 +4346,7 @@ module.exports = [
     name: "RAW CLASSIC 1\u00bd ROLLING PAPERS -",
     description: "",
     price: 25.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4355,7 +4355,7 @@ module.exports = [
     name: "RAW\u00ae - ORGANIC HEMP BLACK ROLLING PAPERS - 1 1/4 50CT |",
     description: "",
     price: 30.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4364,7 +4364,7 @@ module.exports = [
     name: "RAW AUTHENTIC ROLLING PAPERS CLASSIC 1 1/4 BLACK",
     description: "",
     price: 25.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4373,7 +4373,7 @@ module.exports = [
     name: "RAW AUTHENTIC ROLLING PAPERS HEMP ORGANIC 1 1/4 SIZE",
     description: "",
     price: 24.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4382,7 +4382,7 @@ module.exports = [
     name: "RAW 1 1/4 ROLLING PAPERS",
     description: "",
     price: 24.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4391,7 +4391,7 @@ module.exports = [
     name: "RAW CLASSIC KING SIZE SLIM ROLLING PAPER (BOX OF 50 BOOKLETS)",
     description: "",
     price: 32.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4400,7 +4400,7 @@ module.exports = [
     name: "RAW KING SIZE SLIM CLASSIC",
     description: "",
     price: 32.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4409,7 +4409,7 @@ module.exports = [
     name: "RAW ETHEREAL KING SIZE SLIM",
     description: "",
     price: 59.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4418,7 +4418,7 @@ module.exports = [
     name: "RAW AUTHENTIC ROLLING PAPERS CLASSIC KING SIZE SLIM BLACK",
     description: "",
     price: 38.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4427,7 +4427,7 @@ module.exports = [
     name: "RAW BLACK ORGANIC HEMP ROLLING PAPERS",
     description: "",
     price: 50.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4436,7 +4436,7 @@ module.exports = [
     name: "RAW X LEMONADE GRAPE KS PAPER 50",
     description: "",
     price: 59.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4445,7 +4445,7 @@ module.exports = [
     name: "RAW\u00ae - KING SIZE WIDE PAPERS 33 LEAVES",
     description: "",
     price: 52.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4454,7 +4454,7 @@ module.exports = [
     name: "RAW CLASSIC PHATTY PAPERS 125MM LONG FULL BOX",
     description: "",
     price: 40.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4463,7 +4463,7 @@ module.exports = [
     name: "RAW\u00ae - CLASSIC 1\u00bc ROLLING PAPERS MASTERPIECE WITH PRE-ROLLED TIPS",
     description: "",
     price: 32.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4472,7 +4472,7 @@ module.exports = [
     name: "RAW HEMP WICK 20 FT 20CT",
     description: "",
     price: 24.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4481,7 +4481,7 @@ module.exports = [
     name: "RAW NATURAL HEMP WICK ROLLS -",
     description: "",
     price: 44.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4490,7 +4490,7 @@ module.exports = [
     name: "RAW CLASSIC ROLLS KING SIZE",
     description: "",
     price: 25.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4499,7 +4499,7 @@ module.exports = [
     name: "RAW 3M BLACK ORGANIC ROLLS",
     description: "",
     price: 35.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4508,7 +4508,7 @@ module.exports = [
     name: "RAW CLASSIC ROLLS SINGLE WIDE 5 METER",
     description: "",
     price: 34.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4517,7 +4517,7 @@ module.exports = [
     name: "RAW | CLASSIC KING SIZE 5 METER ROLLS",
     description: "",
     price: 32.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4526,7 +4526,7 @@ module.exports = [
     name: "RAW ORGANIC HEMP ROLLING PAPERS 5 METER ROLLS",
     description: "",
     price: 35.5,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4535,7 +4535,7 @@ module.exports = [
     name: "RAW PERFORATED EXTRA WIDE BLACK TIPS",
     description: "",
     price: 24.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4544,7 +4544,7 @@ module.exports = [
     name: "RAW BLACK ROLLING PAPERS W-WIDE PRE-ROLL TIPS",
     description: "",
     price: 25.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4553,7 +4553,7 @@ module.exports = [
     name: "RAW PERFORATED GUMMED TIPS",
     description: "",
     price: 24.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4562,7 +4562,7 @@ module.exports = [
     name: "RAW AUTHENTIC CHEMICAL AND CHLORINE FREE ROLL-UP TIPS",
     description: "",
     price: 24.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4571,7 +4571,7 @@ module.exports = [
     name: "RAW - PRE-ROLLED TIPS WIDE - 21 COUNT",
     description: "",
     price: 29.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4580,7 +4580,7 @@ module.exports = [
     name: "RAW PRE-ROLLED TIPS TIN (100 PCS)",
     description: "",
     price: 29.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4589,7 +4589,7 @@ module.exports = [
     name: "RAW WIDE TIPS BOOKLET",
     description: "",
     price: 24.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4598,7 +4598,7 @@ module.exports = [
     name: "RAW DLX CANNON GLASS TIPPED CONE",
     description: "",
     price: 149.0,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4607,7 +4607,7 @@ module.exports = [
     name: "RAW TERP CONES 1.25 YLW",
     description: "",
     price: 59.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4616,7 +4616,7 @@ module.exports = [
     name: "RAW LEMON JACK BOOSTED CONE TERPS",
     description: "",
     price: 59.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4625,7 +4625,7 @@ module.exports = [
     name: "RAW LEMON FUEL BOOSTED CONE",
     description: "",
     price: 59.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4634,7 +4634,7 @@ module.exports = [
     name: "RAW ROCKET BOOSTER TERPENE INFUSED CONES",
     description: "",
     price: 59.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4643,7 +4643,7 @@ module.exports = [
     name: "RAW TERP SPRAY SOUR APPLE",
     description: "",
     price: 44.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4652,7 +4652,7 @@ module.exports = [
     name: "RAW TERPENE SPRAY ENHANCER SFV OG 8",
     description: "",
     price: 44.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4661,7 +4661,7 @@ module.exports = [
     name: "RAW TERPENE SPRAY ORANGE SODA 8C",
     description: "",
     price: 44.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4670,7 +4670,7 @@ module.exports = [
     name: "RAW TERP SPRAY 5ML BOX OF 8 - PURPLE GELATO",
     description: "",
     price: 44.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4679,7 +4679,7 @@ module.exports = [
     name: "RAW ROLLING PAPERS PRO TIPS FOR PHATTY",
     description: "",
     price: 29.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4688,7 +4688,7 @@ module.exports = [
     name: "RAW CONICAL PAPER FILTER MASTER PERFORATED 9 CM",
     description: "",
     price: 21.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4697,7 +4697,7 @@ module.exports = [
     name: "RAW CONES CLASSIC KING SIZE | 32 PACK",
     description: "",
     price: 54.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4706,7 +4706,7 @@ module.exports = [
     name: "EIGHTH BAGS",
     description: "100CT",
     price: 9.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4715,7 +4715,7 @@ module.exports = [
     name: "DIME BAGS",
     description: "100CT",
     price: 9.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4724,7 +4724,7 @@ module.exports = [
     name: "HALF OUNCE BAGS",
     description: "100CT",
     price: 19.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
   {
@@ -4733,7 +4733,7 @@ module.exports = [
     name: "OUNCE BAGS",
     description: "100CT",
     price: 19.99,
-    category: "Rolling Papers",
+    category: "Smoking Supplies",
     photoUrl: "MISSING",
   },
 ];
