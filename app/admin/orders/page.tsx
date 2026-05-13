@@ -15,6 +15,7 @@ interface Order {
   totalPrice: string;
   submittedAt: string;
   createdAt: string;
+  fulfilledAt: string | null;
 }
 
 interface OrderItem {
@@ -34,6 +35,7 @@ export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [photoByProductId, setPhotoByProductId] = useState<Record<string, string>>({});
   const [expanded, setExpanded] = useState<number | null>(null);
+  const [filter, setFilter] = useState<"all" | "unfulfilled" | "fulfilled">("all");
 
   useEffect(() => {
     const token = sessionStorage.getItem("nf_token");
@@ -65,17 +67,34 @@ export default function AdminOrdersPage() {
     return isNaN(n) ? "0.00" : n.toFixed(2);
   }
 
+  const filteredOrders = orders.filter((o) => {
+    if (filter === "fulfilled") return o.fulfilledAt !== null;
+    if (filter === "unfulfilled") return o.fulfilledAt === null;
+    return true;
+  });
+
   return (
     <div>
-      <h1 className="text-2xl font-black mb-6">Orders</h1>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-6">
+        <h1 className="text-2xl font-black">Orders</h1>
+        <select
+          value={filter}
+          onChange={(e) => setFilter(e.target.value as "all" | "unfulfilled" | "fulfilled")}
+          className="border border-[var(--candy-border)] rounded-[14px] py-2 px-3 bg-white text-sm w-full sm:w-auto"
+        >
+          <option value="all">All</option>
+          <option value="unfulfilled">Unfulfilled</option>
+          <option value="fulfilled">Fulfilled</option>
+        </select>
+      </div>
 
-      {orders.length === 0 ? (
+      {filteredOrders.length === 0 ? (
         <div className="bg-white border border-[var(--candy-border)] rounded-[18px] p-8 text-center text-[var(--candy-muted)] shadow-sm">
           No orders yet.
         </div>
       ) : (
         <div className="space-y-3">
-          {orders.map((order) => {
+          {filteredOrders.map((order) => {
             let items: OrderItem[] = [];
             try {
               items = JSON.parse(order.items);
