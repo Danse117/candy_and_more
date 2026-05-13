@@ -19,6 +19,7 @@ export default function AdminProductsPage() {
   const [editing, setEditing] = useState<Product | null>(null);
   const [creating, setCreating] = useState(false);
   const [search, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState<"name" | "upc" | "category">("name");
 
   const token = typeof window !== "undefined" ? sessionStorage.getItem("nf_token") : null;
   const headers = { Authorization: `Bearer ${token}`, "Content-Type": "application/json" };
@@ -109,6 +110,12 @@ export default function AdminProductsPage() {
       p.upc.includes(search)
   );
 
+  const filteredSorted = [...filtered].sort((a, b) => {
+    if (sortBy === "upc") return a.upc.localeCompare(b.upc);
+    if (sortBy === "category") return a.category.localeCompare(b.category);
+    return a.name.localeCompare(b.name);
+  });
+
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
@@ -147,12 +154,23 @@ export default function AdminProductsPage() {
         </div>
       )}
 
-      <input
-        placeholder="Search products..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="mb-4 border border-[var(--candy-border)] rounded-[14px] py-2.5 px-3 bg-white text-sm w-full max-w-sm"
-      />
+      <div className="mb-4 flex flex-col sm:flex-row gap-2 sm:items-center">
+        <input
+          placeholder="Search products..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="border border-[var(--candy-border)] rounded-[14px] py-2.5 px-3 bg-white text-sm w-full sm:max-w-sm"
+        />
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value as "name" | "upc" | "category")}
+          className="border border-[var(--candy-border)] rounded-[14px] py-2.5 px-3 bg-white text-sm w-full sm:w-auto"
+        >
+          <option value="name">Alphabetical (A–Z)</option>
+          <option value="upc">UPC</option>
+          <option value="category">Category</option>
+        </select>
+      </div>
 
       {/* Desktop table */}
       <div className="hidden md:block bg-white border border-[var(--candy-border)] rounded-[18px] shadow-sm overflow-hidden">
@@ -167,7 +185,7 @@ export default function AdminProductsPage() {
             </tr>
           </thead>
           <tbody>
-            {filtered.map((p) => (
+            {filteredSorted.map((p) => (
               <tr key={p.id} className="border-t border-[var(--candy-border)]">
                 <td className="px-4 py-3 font-bold">
                   <div className="flex items-center gap-3">
@@ -207,14 +225,14 @@ export default function AdminProductsPage() {
             ))}
           </tbody>
         </table>
-        {filtered.length === 0 && (
+        {filteredSorted.length === 0 && (
           <div className="p-6 text-center text-[var(--candy-muted)]">No products found.</div>
         )}
       </div>
 
       {/* Mobile cards */}
       <div className="md:hidden space-y-3">
-        {filtered.map((p) => (
+        {filteredSorted.map((p) => (
           <div
             key={p.id}
             className="bg-white border border-[var(--candy-border)] rounded-[18px] p-4 shadow-sm"
@@ -259,7 +277,7 @@ export default function AdminProductsPage() {
             </div>
           </div>
         ))}
-        {filtered.length === 0 && (
+        {filteredSorted.length === 0 && (
           <div className="bg-white border border-[var(--candy-border)] rounded-[18px] p-6 text-center text-[var(--candy-muted)] shadow-sm">
             No products found.
           </div>
