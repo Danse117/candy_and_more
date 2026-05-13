@@ -39,6 +39,7 @@ export const ordersTable = pgTable("orders", {
   totalPrice: numeric("total_price", { precision: 10, scale: 2 }).notNull(),
   submittedAt: timestamp("submitted_at").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  fulfilledAt: timestamp("fulfilled_at"),
 });
 
 export const productImagesTable = pgTable("product_images", {
