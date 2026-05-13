@@ -84,9 +84,11 @@ export default function InvoicePage({
             })
             .save();
         } catch {
-          alert(
-            "PDF generation failed. Use the Print button and choose 'Save as PDF' from the print dialog."
-          );
+          if (!cancelled) {
+            alert(
+              "PDF generation failed. Use the Print button and choose 'Save as PDF' from the print dialog."
+            );
+          }
         }
       })();
       return () => {
