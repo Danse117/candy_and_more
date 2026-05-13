@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Printer, Download } from "lucide-react";
 
 interface Order {
   id: number;
@@ -113,6 +114,26 @@ export default function AdminOrdersPage() {
 
                 {isExpanded && (
                   <div className="border-t border-[var(--candy-border)] p-4">
+                    <div className="flex gap-2 mb-3">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          window.open(`/admin/orders/${order.id}/invoice?print=1`, "_blank");
+                        }}
+                        className="flex items-center gap-1.5 rounded-2xl py-1.5 px-3 bg-[#F1F5F9] border border-[var(--candy-border)] text-xs font-bold hover:bg-[#E2E8F0] transition-colors"
+                      >
+                        <Printer className="size-3.5" /> Print
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          window.open(`/admin/orders/${order.id}/invoice?download=1`, "_blank");
+                        }}
+                        className="flex items-center gap-1.5 rounded-2xl py-1.5 px-3 bg-[#F1F5F9] border border-[var(--candy-border)] text-xs font-bold hover:bg-[#E2E8F0] transition-colors"
+                      >
+                        <Download className="size-3.5" /> Download PDF
+                      </button>
+                    </div>
                     {/* Customer details */}
                     <div className="text-sm mb-3 space-y-1">
                       {order.customerEmail && (
