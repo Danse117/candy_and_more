@@ -114,8 +114,13 @@ export default function AdminOrdersPage() {
                   className="w-full flex items-center justify-between p-4 text-left hover:bg-[#F8FAFC] transition-colors"
                 >
                   <div className="min-w-0">
-                    <div className="font-bold text-sm">
-                      {order.customerFirstName} {order.customerLastName}
+                    <div className="font-bold text-sm flex items-center gap-2 flex-wrap">
+                      <span>{order.customerFirstName} {order.customerLastName}</span>
+                      {order.fulfilledAt && (
+                        <span className="inline-block bg-[var(--candy-green-bg)] text-[#065F46] text-xs font-bold rounded-full py-0.5 px-2">
+                          Fulfilled
+                        </span>
+                      )}
                     </div>
                     <div className="text-xs text-[var(--candy-muted)] truncate">
                       {[order.customerEmail, order.customerPhone].filter(Boolean).join(" • ") || "No contact info"} &bull; {submittedDate}
