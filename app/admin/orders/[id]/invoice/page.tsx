@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, use } from "react";
+import { useSearchParams } from "next/navigation";
 import { BUSINESS_NAME, INVOICE_FOOTER } from "@/lib/invoice-config";
 import "./invoice.css";
 
@@ -34,6 +35,7 @@ export default function InvoicePage({
   const { id } = use(params);
   const [order, setOrder] = useState<Order | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     const token = sessionStorage.getItem("nf_token");
@@ -49,6 +51,49 @@ export default function InvoicePage({
       }
     }).catch(() => setError("Failed to load order."));
   }, [id]);
+
+  useEffect(() => {
+    if (!order) return;
+
+    const wantPrint = searchParams.get("print") === "1";
+    const wantDownload = searchParams.get("download") === "1";
+
+    if (wantPrint) {
+      // Slight delay so the browser has painted the invoice before the dialog opens
+      const timer = setTimeout(() => window.print(), 300);
+      return () => clearTimeout(timer);
+    }
+
+    if (wantDownload) {
+      const root = document.getElementById("invoice-root");
+      if (!root) return;
+      let cancelled = false;
+      (async () => {
+        try {
+          // html2pdf.js v0.10 has no shipped types; default export is a chainable factory.
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const html2pdf = (await import("html2pdf.js")).default as any;
+          if (cancelled) return;
+          await html2pdf()
+            .from(root)
+            .set({
+              filename: `invoice-${order.id}.pdf`,
+              jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+              html2canvas: { scale: 2, useCORS: true },
+              margin: 0.5,
+            })
+            .save();
+        } catch {
+          alert(
+            "PDF generation failed. Use the Print button and choose 'Save as PDF' from the print dialog."
+          );
+        }
+      })();
+      return () => {
+        cancelled = true;
+      };
+    }
+  }, [order, searchParams]);
 
   if (error) {
     return <p style={{ padding: "2rem", textAlign: "center" }}>{error}</p>;
