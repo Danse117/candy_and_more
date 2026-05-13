@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Printer, Download } from "lucide-react";
+import { Printer, Download, CheckCircle, Check } from "lucide-react";
 
 interface Order {
   id: number;
@@ -65,6 +65,39 @@ export default function AdminOrdersPage() {
   function formatPrice(raw: string | number | null | undefined): string {
     const n = Number(raw);
     return isNaN(n) ? "0.00" : n.toFixed(2);
+  }
+
+  async function toggleFulfilled(order: Order) {
+    const wasFulfilled = order.fulfilledAt !== null;
+    const nextValue = !wasFulfilled;
+
+    // Optimistic update with client-side timestamp
+    setOrders((prev) =>
+      prev.map((o) =>
+        o.id === order.id
+          ? { ...o, fulfilledAt: nextValue ? new Date().toISOString() : null }
+          : o
+      )
+    );
+
+    const token = sessionStorage.getItem("nf_token");
+    const res = await fetch(`/api/admin/orders/${order.id}/fulfill`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ fulfilled: nextValue }),
+    });
+
+    if (!res.ok) {
+      setOrders((prev) =>
+        prev.map((o) =>
+          o.id === order.id ? { ...o, fulfilledAt: order.fulfilledAt } : o
+        )
+      );
+      alert("Failed to update fulfillment status.");
+    }
   }
 
   const filteredOrders = orders.filter((o) => {
@@ -138,7 +171,7 @@ export default function AdminOrdersPage() {
 
                 {isExpanded && (
                   <div className="border-t border-[var(--candy-border)] p-4">
-                    <div className="flex gap-2 mb-3">
+                    <div className="flex gap-2 mb-3 flex-wrap">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -157,6 +190,27 @@ export default function AdminOrdersPage() {
                       >
                         <Download className="size-3.5" /> Download PDF
                       </button>
+                      {order.fulfilledAt ? (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleFulfilled(order);
+                          }}
+                          className="flex items-center gap-1.5 rounded-2xl py-1.5 px-3 bg-[#F1F5F9] border border-[var(--candy-border)] text-[var(--candy-muted)] text-xs font-bold hover:bg-[#E2E8F0] transition-colors"
+                        >
+                          <Check className="size-3.5" /> Fulfilled (click to undo)
+                        </button>
+                      ) : (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleFulfilled(order);
+                          }}
+                          className="flex items-center gap-1.5 rounded-2xl py-1.5 px-3 bg-[var(--candy-green-bg)] border border-[var(--candy-green-border)] text-[#065F46] text-xs font-bold hover:bg-[rgba(52,211,153,0.28)] transition-colors"
+                        >
+                          <CheckCircle className="size-3.5" /> Mark Fulfilled
+                        </button>
+                      )}
                     </div>
                     {/* Customer details */}
                     <div className="text-sm mb-3 space-y-1">
