@@ -14,6 +14,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const isPublicRoute =
     pathname === "/admin/login" || pathname === "/admin/recover";
 
+  const isInvoiceRoute = /^\/admin\/orders\/\d+\/invoice$/.test(pathname);
+
   useEffect(() => {
     if (isPublicRoute) return;
     const token = sessionStorage.getItem("nf_token");
@@ -37,6 +39,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 
   if (isPublicRoute) return <>{children}</>;
   if (!authenticated) return null;
+  if (isInvoiceRoute) return <>{children}</>;
 
   return (
     <div className="flex h-screen overflow-hidden">
