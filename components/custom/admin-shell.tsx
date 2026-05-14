@@ -7,12 +7,17 @@ import AdminSidebar from "@/components/custom/admin-sidebar";
 import { signOutAction } from "./admin-shell-actions";
 
 const INVOICE_ROUTE = /^\/admin\/orders\/\d+\/invoice$/;
+const AUTH_FLOW_ROUTES = new Set([
+  "/admin/login",
+  "/admin/forgot-password",
+  "/admin/reset-password",
+]);
 
 export default function AdminShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  if (INVOICE_ROUTE.test(pathname)) {
+  if (INVOICE_ROUTE.test(pathname) || AUTH_FLOW_ROUTES.has(pathname)) {
     return <>{children}</>;
   }
 
