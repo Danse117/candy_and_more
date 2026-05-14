@@ -1,13 +1,13 @@
 // app/api/admin/upload/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
-import { validateAdminToken } from "@/lib/auth";
+import { requireAdminSession } from "@/lib/auth/admin-guard";
 import { getDb } from "@/lib/db";
 import { productImagesTable, productsTable } from "@/lib/db/schema";
 
 export async function POST(request: NextRequest) {
-  const user = await validateAdminToken(request);
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const { response } = await requireAdminSession();
+  if (response) return response;
 
   const formData = await request.formData();
   const file = formData.get("file") as File | null;

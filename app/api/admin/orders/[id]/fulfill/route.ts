@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { validateAdminToken } from "@/lib/auth";
+import { requireAdminSession } from "@/lib/auth/admin-guard";
 import { getDb } from "@/lib/db";
 import { ordersTable } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
@@ -8,8 +8,8 @@ export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const user = await validateAdminToken(request);
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const { response } = await requireAdminSession();
+  if (response) return response;
 
   const { id } = await params;
   const orderId = Number(id);

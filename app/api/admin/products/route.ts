@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { validateAdminToken } from "@/lib/auth";
+import { requireAdminSession } from "@/lib/auth/admin-guard";
 import { getDb } from "@/lib/db";
 import { productsTable } from "@/lib/db/schema";
 import { asc } from "drizzle-orm";
 
 export async function GET(request: NextRequest) {
-  const user = await validateAdminToken(request);
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const { response } = await requireAdminSession();
+  if (response) return response;
 
   const db = getDb();
   const products = await db.select().from(productsTable).orderBy(asc(productsTable.name));
@@ -14,8 +14,8 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const user = await validateAdminToken(request);
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const { response } = await requireAdminSession();
+  if (response) return response;
 
   const body = await request.json();
   const db = getDb();

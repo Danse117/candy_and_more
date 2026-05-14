@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { validateAdminToken } from "@/lib/auth";
+import { requireAdminSession } from "@/lib/auth/admin-guard";
 import { getDb } from "@/lib/db";
 import { productsTable } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
@@ -8,8 +8,8 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const user = await validateAdminToken(request);
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const { response } = await requireAdminSession();
+  if (response) return response;
 
   const { id } = await params;
   const body = await request.json();
@@ -35,8 +35,8 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const user = await validateAdminToken(request);
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const { response } = await requireAdminSession();
+  if (response) return response;
 
   const { id } = await params;
   const db = getDb();
