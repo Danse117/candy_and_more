@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState } from "react";
 import { signInWithEmail } from "./actions";
 
@@ -54,6 +55,12 @@ export default function AdminLoginPage() {
           >
             {isPending ? "Signing in..." : "Sign In"}
           </button>
+          <Link
+            href="/admin/forgot-password"
+            className="block text-center text-xs font-bold text-[var(--candy-muted)] hover:text-[var(--candy-text)] transition-colors"
+          >
+            Forgot password?
+          </Link>
         </div>
       </form>
     </div>
