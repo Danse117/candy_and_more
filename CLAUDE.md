@@ -49,6 +49,16 @@ Cart state is client-side only (no auth, no persistence beyond the session). Use
 - **Tailwind CSS v4** with `@tailwindcss/postcss`.
 - **motion** library for animations — keep animations simple and place wrappers in `components/animations/`.
 
+### Auth
+
+Admin pages and `/api/admin/*` routes are gated by Neon Auth (Better Auth, via the `@neondatabase/auth` SDK).
+
+- Server-side: `auth.getSession()` from `lib/auth/server.ts` reads the session from an httpOnly cookie set by Neon Auth.
+- Proxy: `proxy.ts` at the repo root (Next.js 16's renamed middleware) enforces a redirect to `/admin/login` on unauthenticated `/admin/*` requests and on unauthenticated `/api/admin/*` requests. The matcher excludes `/admin/login` via negative lookahead so the login page doesn't redirect to itself.
+- API routes: each calls `await requireAdminSession()` from `lib/auth/admin-guard.ts` for defense-in-depth.
+- Admin accounts are created in the Neon Auth dashboard. There is no in-app signup or password-reset UI; reset is done via the Neon dashboard.
+- Env vars (set in `.env.local` for local and in Netlify env for prod): `NEON_AUTH_BASE_URL`, `NEON_AUTH_COOKIE_SECRET` (32+ chars, unique per environment, generated via `openssl rand -base64 32`).
+
 ### Skills
 
 This project has skills installed in `.claude/skills/` and `.agents/skills/`. Use the appropriate skill when working on:
