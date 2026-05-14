@@ -14,6 +14,7 @@
     "db:seed": "netlify dev:exec npx tsx lib/db/seed.ts"
   },
   "dependencies": {
+    "@neondatabase/auth": "^0.4.1-beta",
     "@netlify/neon": "^0.1.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
