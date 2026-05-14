@@ -35,24 +35,42 @@ export default function InvoicePage({
   const { id } = use(params);
   const [order, setOrder] = useState<Order | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [photoByProductId, setPhotoByProductId] = useState<Record<string, string> | null>(null);
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    fetch(`/api/admin/orders/${id}`)
-      .then(async (r) => {
-        if (r.ok) {
-          setOrder(await r.json());
-        } else if (r.status === 404) {
+    const token = sessionStorage.getItem("nf_token");
+    const headers = { Authorization: `Bearer ${token}` };
+    Promise.all([
+      fetch(`/api/admin/orders/${id}`, { headers }),
+      fetch("/api/admin/products", { headers }),
+    ])
+      .then(async ([orderRes, productsRes]) => {
+        if (orderRes.ok) {
+          setOrder(await orderRes.json());
+        } else if (orderRes.status === 404) {
           setError("Order not found.");
         } else {
           setError("Failed to load order.");
+        }
+        if (productsRes.ok) {
+          const products = (await productsRes.json()) as Array<{
+            id: string;
+            photoUrl: string;
+          }>;
+          const map: Record<string, string> = {};
+          for (const p of products) map[p.id] = p.photoUrl;
+          setPhotoByProductId(map);
+        } else {
+          // Graceful degradation: render all placeholders if products fail.
+          setPhotoByProductId({});
         }
       })
       .catch(() => setError("Failed to load order."));
   }, [id]);
 
   useEffect(() => {
-    if (!order) return;
+    if (!order || !photoByProductId) return;
 
     const wantPrint = searchParams.get("print") === "1";
     const wantDownload = searchParams.get("download") === "1";
@@ -94,12 +112,12 @@ export default function InvoicePage({
         cancelled = true;
       };
     }
-  }, [order, searchParams]);
+  }, [order, photoByProductId, searchParams]);
 
   if (error) {
     return <p style={{ padding: "2rem", textAlign: "center" }}>{error}</p>;
   }
-  if (!order) {
+  if (!order || !photoByProductId) {
     return <p style={{ padding: "2rem", textAlign: "center" }}>Loading…</p>;
   }
 
@@ -156,7 +174,21 @@ export default function InvoicePage({
           <tbody>
             {items.map((item, i) => (
               <tr key={i}>
-                <td className="col-product">{item.name}</td>
+                <td className="col-product">
+                  <div className="invoice-product-cell">
+                    {photoByProductId[item.productId] && photoByProductId[item.productId] !== "MISSING" ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={photoByProductId[item.productId]}
+                        alt={item.name}
+                        className="invoice-thumb"
+                      />
+                    ) : (
+                      <div className="invoice-thumb invoice-thumb-placeholder" aria-hidden="true" />
+                    )}
+                    <span>{item.name}</span>
+                  </div>
+                </td>
                 <td className="col-upc">{item.upc}</td>
                 <td className="col-qty">{item.quantity}</td>
                 <td className="col-unit">${Number(item.price).toFixed(2)}</td>
