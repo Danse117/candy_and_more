@@ -38,18 +38,17 @@ export default function InvoicePage({
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const token = sessionStorage.getItem("nf_token");
-    fetch(`/api/admin/orders/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    }).then(async (r) => {
-      if (r.ok) {
-        setOrder(await r.json());
-      } else if (r.status === 404) {
-        setError("Order not found.");
-      } else {
-        setError("Failed to load order.");
-      }
-    }).catch(() => setError("Failed to load order."));
+    fetch(`/api/admin/orders/${id}`)
+      .then(async (r) => {
+        if (r.ok) {
+          setOrder(await r.json());
+        } else if (r.status === 404) {
+          setError("Order not found.");
+        } else {
+          setError("Failed to load order.");
+        }
+      })
+      .catch(() => setError("Failed to load order."));
   }, [id]);
 
   useEffect(() => {

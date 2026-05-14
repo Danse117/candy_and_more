@@ -38,12 +38,9 @@ export default function AdminOrdersPage() {
   const [filter, setFilter] = useState<"all" | "unfulfilled" | "fulfilled">("all");
 
   useEffect(() => {
-    const token = sessionStorage.getItem("nf_token");
-    const headers = { Authorization: `Bearer ${token}` };
-
     Promise.all([
-      fetch("/api/admin/orders", { headers }).then((r) => r.json()),
-      fetch("/api/admin/products", { headers }).then((r) => r.json()),
+      fetch("/api/admin/orders").then((r) => r.json()),
+      fetch("/api/admin/products").then((r) => r.json()),
     ]).then(([ordersData, productsData]) => {
       if (Array.isArray(ordersData)) setOrders(ordersData);
       if (Array.isArray(productsData)) {
@@ -80,13 +77,9 @@ export default function AdminOrdersPage() {
       )
     );
 
-    const token = sessionStorage.getItem("nf_token");
     const res = await fetch(`/api/admin/orders/${order.id}/fulfill`, {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ fulfilled: nextValue }),
     });
 

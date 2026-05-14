@@ -21,11 +21,8 @@ export default function AdminProductsPage() {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState<"name" | "upc" | "category">("name");
 
-  const token = typeof window !== "undefined" ? sessionStorage.getItem("nf_token") : null;
-  const headers = { Authorization: `Bearer ${token}`, "Content-Type": "application/json" };
-
   async function loadProducts() {
-    const res = await fetch("/api/admin/products", { headers: { Authorization: `Bearer ${token}` } });
+    const res = await fetch("/api/admin/products");
     if (res.ok) setProducts(await res.json());
   }
 
@@ -39,7 +36,7 @@ export default function AdminProductsPage() {
   ) {
     const res = await fetch("/api/admin/products", {
       method: "POST",
-      headers,
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
     if (!res.ok) {
@@ -53,7 +50,6 @@ export default function AdminProductsPage() {
       fd.append("productId", productId);
       const uploadRes = await fetch("/api/admin/upload", {
         method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
         body: fd,
       });
       if (!uploadRes.ok) {
@@ -71,7 +67,7 @@ export default function AdminProductsPage() {
     if (!data.id) return;
     const res = await fetch(`/api/admin/products/${data.id}`, {
       method: "PUT",
-      headers,
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
     if (!res.ok) {
@@ -84,7 +80,6 @@ export default function AdminProductsPage() {
       fd.append("productId", data.id);
       const uploadRes = await fetch("/api/admin/upload", {
         method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
         body: fd,
       });
       if (!uploadRes.ok) {
@@ -97,10 +92,7 @@ export default function AdminProductsPage() {
 
   async function handleDelete(id: string) {
     if (!confirm("Delete this product?")) return;
-    await fetch(`/api/admin/products/${id}`, {
-      method: "DELETE",
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    await fetch(`/api/admin/products/${id}`, { method: "DELETE" });
     loadProducts();
   }
 

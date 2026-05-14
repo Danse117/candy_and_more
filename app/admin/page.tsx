@@ -12,12 +12,9 @@ export default function AdminDashboardPage() {
   const [stats, setStats] = useState<Stats>({ productCount: 0, orderCount: 0 });
 
   useEffect(() => {
-    const token = sessionStorage.getItem("nf_token");
-    const headers = { Authorization: `Bearer ${token}` };
-
     Promise.all([
-      fetch("/api/admin/products", { headers }).then((r) => r.json()),
-      fetch("/api/admin/orders", { headers }).then((r) => r.json()),
+      fetch("/api/admin/products").then((r) => r.json()),
+      fetch("/api/admin/orders").then((r) => r.json()),
     ]).then(([products, orders]) => {
       setStats({
         productCount: Array.isArray(products) ? products.length : 0,
