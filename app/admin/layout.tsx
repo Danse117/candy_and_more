@@ -1,70 +1,20 @@
-"use client";
+import { auth } from "@/lib/auth/server";
+import AdminShell from "@/components/custom/admin-shell";
 
-import { useEffect, useState, type ReactNode } from "react";
-import { useRouter, usePathname } from "next/navigation";
-import { Menu } from "lucide-react";
-import AdminSidebar from "@/components/custom/admin-sidebar";
+export default async function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const { data: session } = await auth.getSession();
 
-export default function AdminLayout({ children }: { children: ReactNode }) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const [authenticated, setAuthenticated] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const isPublicRoute =
-    pathname === "/admin/login" || pathname === "/admin/recover";
-
-  const isInvoiceRoute = /^\/admin\/orders\/\d+\/invoice$/.test(pathname);
-
-  useEffect(() => {
-    if (isPublicRoute) return;
-    const token = sessionStorage.getItem("nf_token");
-    if (!token) {
-      router.replace("/admin/login");
-      return;
-    }
-    setAuthenticated(true);
-  }, [router, isPublicRoute]);
-
-  // Close sidebar on route change (mobile)
-  useEffect(() => {
-    setSidebarOpen(false);
-  }, [pathname]);
-
-  function handleLogout() {
-    sessionStorage.removeItem("nf_token");
-    window.netlifyIdentity?.logout();
-    router.replace("/admin/login");
+  // The proxy redirects ALL unauthenticated /admin/* requests to /admin/login
+  // BEFORE this layout runs. So the only way to reach this code path without
+  // a session is the login page itself. In that case, render children plain
+  // (no sidebar/shell).
+  if (!session?.user) {
+    return <>{children}</>;
   }
 
-  if (isPublicRoute) return <>{children}</>;
-  if (!authenticated) return null;
-  if (isInvoiceRoute) return <>{children}</>;
-
-  return (
-    <div className="flex h-screen overflow-hidden">
-      <AdminSidebar
-        onLogout={handleLogout}
-        open={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-      />
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Mobile top bar */}
-        <div className="flex items-center gap-3 p-3 border-b border-[var(--candy-border)] bg-white md:hidden">
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className="p-1.5 rounded-lg hover:bg-[#F1F5F9] transition-colors"
-          >
-            <Menu className="size-5" />
-          </button>
-          <span className="text-sm font-black">
-            Candy <span className="text-[var(--candy-accent)]">&amp;</span> More
-          </span>
-        </div>
-        <main className="flex-1 overflow-auto p-4 md:p-6 bg-[var(--candy-bg)]">
-          {children}
-        </main>
-      </div>
-    </div>
-  );
+  return <AdminShell>{children}</AdminShell>;
 }
